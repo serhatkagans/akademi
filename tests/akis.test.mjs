@@ -28,7 +28,7 @@ const kayit = (ek = {}) => ({ ad: 'Deneme Genç', eposta: `g${Math.random()}@orn
   ulke: 'TR', dogumYili: 2004, rol: 'genc', onay: true, ...ek });
 
 before(async () => {
-  sunucu = spawn(process.execPath, ['server.mjs'], { env: { ...process.env, PORT: String(PORT), DATA_DIR: dir, DATABASE_URL: '' }, stdio: 'pipe' });
+  sunucu = spawn(process.execPath, ['server.mjs'], { env: { ...process.env, PORT: String(PORT), DATA_DIR: dir, DATABASE_URL: '', VIDEO_HIZ: '1e9', YEDEK: 'kapali', HATIRLATMA: 'kapali' }, stdio: 'pipe' });
   for (let i = 0; i < 50; i++) {
     try { await fetch(ADRES + '/api/ben'); return; } catch { await new Promise(r => setTimeout(r, 100)); }
   }
@@ -74,9 +74,11 @@ test('tam akış: bölümler → test → anket → sertifika → doğrulama →
       if (['metin', 'ornek', 'kartlar'].includes(adim.tur)) {
         d = (await a(y + '/goruldu', { method: 'POST', govde: {} })).veri.durum;
       } else if (adim.tur === 'video') {
-        await a(y + '/video', { method: 'POST', govde: { sn: 999, sure: 230 } }); // süreyi aşamaz
-        d = (await a(y + '/video', { method: 'POST', govde: { sn: 10, sure: 230 } })).veri.durum; // geri gitmez
-        assert.equal(bolumDurumu(d).adimlar[adim.id].sn, 230);
+        await a(y + '/video', { method: 'POST', govde: { sn: 0, sure: 9999 } });   // oynatma başladı
+        await a(y + '/video', { method: 'POST', govde: { sn: 9999, sure: 9999 } }); // içerikteki süreyi aşamaz
+        d = (await a(y + '/video', { method: 'POST', govde: { sn: 10, sure: 9999 } })).veri.durum; // geri gitmez
+        assert.equal(bolumDurumu(d).adimlar[adim.id].sn, adim.sure, 'süre içerikten; tarayıcının bildirdiği süre yok sayılır');
+        assert.equal(bolumDurumu(d).adimlar[adim.id].sure, adim.sure);
         if (adim.sorular.length) {
           assert.equal(bolumDurumu(d).adimlar[adim.id].tamam, false, 'ara sorular cevaplanmadan video adımı bitmez');
           const yanlis = await a(y + '/soru', { method: 'POST', govde: { soru: 0, cevap: adim.sorular[0].dogru === 0 ? 1 : 0 } });

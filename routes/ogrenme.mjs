@@ -15,11 +15,31 @@ import { uyeyeGonder } from '../lib/posta.mjs';
  */
 const VIDEO_ORAN = 0.9;
 
+/**
+ * Video izleme ilerlemesi SUNUCUDA sınırlanır: tarayıcının bildirdiği konuma körü körüne inanılmaz.
+ * - Süre içerikte biliniyorsa (a.sure) o kullanılır; tarayıcının bildirdiği süre yok sayılır.
+ * - İzlenen konum, son bildirimden bu yana geçen GERÇEK zamanın en çok HIZ katı (YouTube'da 2x hız
+ *   seçilebilir) + küçük bir pay kadar ilerleyebilir. Tek istekle "sonuna kadar izledim" denemez.
+ * Saf işlev: v = adımın kayıtlı verisi, bildirilen = { sn, sure }, bilinen = içerikteki süre.
+ */
+/* VIDEO_HIZ ortam değişkeni yalnızca uçtan uca testler içindir (zamanı beklememek için); sunucuda tanımlanmaz. */
+export const VIDEO_HIZ = Number(process.env.VIDEO_HIZ) || 2, VIDEO_PAY = 15;
+export function izlemeGuncelle(v, bildirilen, bilinen, simdi = Date.now(), hiz = VIDEO_HIZ) {
+  const sure = bilinen || Math.max(v.sure || 0, bildirilen.sure);
+  const onceki = v.sn || 0;
+  const gecen = v.t ? Math.max(0, (simdi - v.t) / 1000) : 0;
+  const ust = onceki + gecen * hiz + VIDEO_PAY;
+  const sn = Math.round(Math.min(sure, Math.max(onceki, Math.min(bildirilen.sn, ust))));
+  return { ...v, sure, sn, t: simdi };
+}
+
+export const ayBasi = z => { const d = new Date(z); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1); };
 const json = (v, varsayilan) => { try { return JSON.parse(v); } catch { return varsayilan; } };
 
 function adimTamamMi(a, veri) {
   if (a.tur === 'video') {
-    return veri.sure > 0 && veri.sn >= veri.sure * VIDEO_ORAN && a.sorular.every((_, i) => (veri.cevaplar || []).includes(i));
+    const sure = a.sure || veri.sure;
+    return sure > 0 && veri.sn >= sure * VIDEO_ORAN && a.sorular.every((_, i) => (veri.cevaplar || []).includes(i));
   }
   if (a.tur === 'sina') return a.sorular.every((_, i) => (veri.cevaplar || []).includes(i));
   if (a.tur === 'etkinlik') return !!veri.yazildi;
@@ -36,7 +56,7 @@ export async function durumHesapla(db, uyeId) {
     const adimlar = Object.fromEntries(b.adimlar.map(a => {
       const r = A.get(b.id + '/' + a.id);
       const v = json(r?.veri, {});
-      return [a.id, { tamam: !!r?.tamam_at, ...(a.tur === 'video' ? { sn: v.sn || 0, sure: v.sure || 0, cevaplar: v.cevaplar || [] } : {}),
+      return [a.id, { tamam: !!r?.tamam_at, ...(a.tur === 'video' ? { sn: v.sn || 0, sure: a.sure || v.sure || 0, cevaplar: v.cevaplar || [] } : {}),
         ...(a.tur === 'sina' ? { cevaplar: v.cevaplar || [] } : {}) }];
     }));
     const biten = Object.values(adimlar).filter(x => x.tamam).length;
@@ -153,8 +173,11 @@ export function ogrenmeRoutes({ db }) {
         if (a.tur !== 'video') throw new Hata('istek_gecersiz');
         const sure = Math.round(Number(g.sure)), sn = Math.round(Number(g.sn));
         if (!(sure > 0 && sure < 6 * 3600) || !(sn >= 0)) throw new Hata('istek_gecersiz');
-        /* İzlenen süre yalnızca artar ve süreyi aşamaz. */
-        await adimGuncelle(uye.id, b, a, v => ({ ...v, sure, sn: Math.min(sure, Math.max(v.sn || 0, sn)) }));
+        /* Süre içerikte yoksa (eski kayıtlı içerik) tarayıcının bildirdiği süre en az son ara sorunun
+           saniyesi kadar olmalı: "video 10 saniye" denerek tamamlanamasın. */
+        const sonSoru = Math.max(0, ...a.sorular.map(q => q.sn || 0));
+        if (!a.sure && sure < Math.max(20, sonSoru + 5)) throw new Hata('istek_gecersiz');
+        await adimGuncelle(uye.id, b, a, v => izlemeGuncelle(v, { sn, sure }, a.sure));
       } else {
         if (!['video', 'sina'].includes(a.tur)) throw new Hata('istek_gecersiz');
         const i = Number(g.soru), sec = Number(g.cevap);
@@ -196,8 +219,10 @@ export function ogrenmeRoutes({ db }) {
         puanlar[m.id] = v;
       }
       const yorum = String(g.yorum || '').trim().slice(0, 2000);
+      /* İsimsizlik: satırda dil/ülke tutulmaz, zaman AYIN BAŞINA yuvarlanır. Böylece cevap,
+         kişinin "doldurdu" zamanıyla (uyeler.anket_at) ya da ülkesiyle eşleştirilemez. */
       await db.insert('INSERT INTO anket (dil, ulke, cevaplar, zaman) VALUES (?, ?, ?, ?)',
-        [uye.dil, uye.ulke, JSON.stringify({ puanlar, yorum }), Date.now()]);
+        ['', '', JSON.stringify({ puanlar, yorum }), ayBasi(Date.now())]);
       await db.run('UPDATE uyeler SET anket_at = ? WHERE id = ?', [Date.now(), uye.id]);
       return send(res, 200, { ok: true, durum: await durumHesapla(db, uye.id) });
     }

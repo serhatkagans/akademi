@@ -82,6 +82,7 @@ export function yonetimRoutes({ db }) {
       }
       if (!um[2] && req.method === 'DELETE') {
         if (id === uye.id) throw new Hata('kendin');
+        await db.run('DELETE FROM postalar WHERE uye_id = ?', [id]);   // e-posta adresi kayıtta kalmasın
         await db.run('DELETE FROM uyeler WHERE id = ?', [id]);
         return send(res, 200, { ok: true });
       }

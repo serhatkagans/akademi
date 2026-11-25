@@ -22,7 +22,8 @@ export function hesapRoutes({ db }) {
   return async function (req, res, yol, uye) {
     if (yol === '/api/kayit' && req.method === 'POST') {
       const ip = istemciAdresi(req);
-      if (cokDeneme([['kayit:' + ip, Number(process.env.KAYIT_SINIR || 10)]])) throw new Hata('cok_deneme', 429);
+      /* Aynı adresten 15 dk'da en çok 60 kayıt: bir sınıf (pilot: 24 kişi) aynı ağdan birlikte kaydolabilsin. */
+      if (cokDeneme([['kayit:' + ip, Number(process.env.KAYIT_SINIR || 60)]])) throw new Hata('cok_deneme', 429);
       const k = kayitDenetle(await govde(req));
       if (await db.get('SELECT id FROM uyeler WHERE eposta = ?', [k.eposta])) throw new Hata('eposta_var', 409);
       const id = await db.insert(
@@ -179,6 +180,7 @@ export function hesapRoutes({ db }) {
       const { parola } = await govde(req);
       const u = await db.get('SELECT parola FROM uyeler WHERE id = ?', [uye.id]);
       if (!parolaDogru(parola, u.parola)) throw new Hata('parola_yanlis', 403);
+      await db.run('DELETE FROM postalar WHERE uye_id = ?', [uye.id]);   // e-posta adresi kayıtta kalmasın
       await db.run('DELETE FROM uyeler WHERE id = ?', [uye.id]);
       res.setHeader('Set-Cookie', oturumCerezi('', true));
       return send(res, 200, { ok: true });

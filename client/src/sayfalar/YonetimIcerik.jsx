@@ -89,7 +89,7 @@ function SoruDuzen({ q, degis, sil, no, turSec, ek }) {
  * İçerik ekibi için: videoyu burada izle, uygun anda "Bu saniyede soru ekle" — soru o
  * saniyeye konur, metni aşağıda yazılır. (Ara sorular videonun gerçek içeriğine dayansın diye.)
  */
-function VideoOnizleme({ youtube, soruEkle }) {
+function VideoOnizleme({ youtube, soruEkle, sureBildir }) {
   const { t } = useB();
   const kutu = useRef(null);
   const oyn = useRef(null);
@@ -98,7 +98,9 @@ function VideoOnizleme({ youtube, soruEkle }) {
     let iptal = false, z;
     ytYukle().then(YT => {
       if (iptal) return;
-      oyn.current = new YT.Player(kutu.current, { host: 'https://www.youtube-nocookie.com', videoId: youtube, playerVars: { rel: 0, playsinline: 1 } });
+      oyn.current = new YT.Player(kutu.current, { host: 'https://www.youtube-nocookie.com', videoId: youtube, playerVars: { rel: 0, playsinline: 1 },
+        /* Videonun gerçek süresi içeriğe yazılır: izleme sunucuda buna göre denetlenir. */
+        events: { onReady: e => { const s = Math.round(e.target.getDuration?.() || 0); if (s > 0) sureBildir?.(s); } } });
       z = setInterval(() => { const s = oyn.current?.getCurrentTime?.(); if (s !== undefined) setAn(Math.floor(s)); }, 500);
     });
     return () => { iptal = true; clearInterval(z); oyn.current?.destroy?.(); };
@@ -181,7 +183,7 @@ function AdimAlanlari({ a, degis }) {
       <label>{t('ic.video.kaynak')}<input value={a.kaynak} onChange={e => d({ kaynak: e.target.value })} /></label>
     </div>
     <IkiDil etiket={t('ic.video.not')} deger={a.not} degis={v => d({ not: v })} />
-    {a.youtube && <VideoOnizleme youtube={a.youtube}
+    {a.youtube && <VideoOnizleme youtube={a.youtube} sureBildir={s => { if (s !== a.sure) d({ sure: s }); }}
       soruEkle={sn => d({ sorular: [...a.sorular, { sn, tur: 'cs', soru: bos2(), secenekler: [bos2(), bos2(), bos2()], dogru: 0 }].sort((x, y) => x.sn - y.sn) })} />}
     {a.sorular.map((q, i) => (
       <SoruDuzen key={i} q={q} no={i + 1}

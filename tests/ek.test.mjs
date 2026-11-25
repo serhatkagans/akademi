@@ -13,7 +13,7 @@ async function bolumuBitir(a, id) {
   const b = BOLUMLER.find(x => x.id === id);
   for (const s of b.adimlar) {
     const y = `ogren/adim/${b.id}/${s.id}`;
-    if (s.tur === 'video') { await a(y + '/video', { method: 'POST', govde: { sn: 500, sure: 500 } }); for (const [i, q] of s.sorular.entries()) await a(y + '/soru', { method: 'POST', govde: { soru: i, cevap: q.dogru } }); }
+    if (s.tur === 'video') { await a(y + '/video', { method: 'POST', govde: { sn: 0, sure: 500 } }); await a(y + '/video', { method: 'POST', govde: { sn: 9999, sure: 500 } }); for (const [i, q] of s.sorular.entries()) await a(y + '/soru', { method: 'POST', govde: { soru: i, cevap: q.dogru } }); }
     else if (s.tur === 'sina') for (const [i, q] of s.sorular.entries()) await a(y + '/soru', { method: 'POST', govde: { soru: i, cevap: q.dogru } });
     else if (s.tur === 'etkinlik') await a('ogren/not', { method: 'POST', govde: { anahtar: `adim:${b.id}:${s.id}`, metin: 'x' } });
     else await a(y + '/goruldu', { method: 'POST', govde: {} });
@@ -23,7 +23,7 @@ async function bolumuBitir(a, id) {
 const PORT = 3700 + Math.floor(Math.random() * 500);
 const ADRES = `http://localhost:${PORT}`;
 const dir = mkdtempSync(join(tmpdir(), 'akademi-ek-'));
-const ortam = { ...process.env, DATA_DIR: dir, DATABASE_URL: '', HATIRLATMA: 'kapali', YEDEK: 'kapali', SMTP_HOST: '', KAYIT_SINIR: '1000' };
+const ortam = { ...process.env, DATA_DIR: dir, DATABASE_URL: '', HATIRLATMA: 'kapali', YEDEK: 'kapali', SMTP_HOST: '', KAYIT_SINIR: '1000', VIDEO_HIZ: '1e9' };
 let sunucu;
 
 function istemci() {
@@ -317,4 +317,51 @@ test('çeviri eskimesi: İngilizcesi değişen adım ortak dilinde İngilizce g�
   assert.equal(sonra.bolumler[0].adimlar[1].baslik, once.bolumler[0].adimlar[1].baslik, 'diğer adımlar çeviride kalır');
   const it = (await y('yonetim/ceviri')).veri.diller.find(d => d.dil === 'it');
   assert.ok(it.eski.some(o => o.bolum === b.id && o.adim === a.id));
+});
+
+test('anket isimsiz: satırda dil/ülke yok, zaman ayın başı; hesap silinince e-posta kayıtları da gider', async () => {
+  const { DatabaseSync } = await import('node:sqlite');
+  const e = `s${Math.random()}@ornek.test`;
+  const a = await kaydol({ eposta: e });
+  /* Önceki testler içeriği değiştirmiş olabilir: güncel içerik yöneticiden okunur. */
+  const ic = (await (await yonetici())('yonetim/icerik')).veri;
+  for (const bl of ic.bolumler) for (const s of bl.adimlar) {
+    const y = `ogren/adim/${bl.id}/${s.id}`;
+    if (s.tur === 'video') { await a(y + '/video', { method: 'POST', govde: { sn: 0, sure: 500 } }); await a(y + '/video', { method: 'POST', govde: { sn: 9999, sure: 500 } }); }
+    if (s.tur === 'video' || s.tur === 'sina') for (const [i, q] of s.sorular.entries()) await a(y + '/soru', { method: 'POST', govde: { soru: i, cevap: q.dogru } });
+    else if (s.tur === 'etkinlik') await a('ogren/not', { method: 'POST', govde: { anahtar: `adim:${bl.id}:${s.id}`, metin: 'x' } });
+    else await a(y + '/goruldu', { method: 'POST', govde: {} });
+  }
+  assert.ok((await a('ogren/test', { method: 'POST', govde: { cevaplar: ic.test.map(q => q.dogru) } })).veri.gecti);
+  const puanlar = Object.fromEntries((await import('../icerik/modul.mjs')).ANKET.map(m => [m.id, 4]));
+  assert.equal((await a('ogren/anket', { method: 'POST', govde: { puanlar, yorum: 'iz-testi' } })).durum, 200);
+  assert.equal((await a('ogren/sertifika', { method: 'POST', govde: {} })).durum, 200);
+  let vt = new DatabaseSync(join(dir, 'akademi.sqlite'));
+  const satir = vt.prepare("SELECT dil, ulke, zaman FROM anket WHERE cevaplar LIKE '%iz-testi%'").get();
+  assert.equal(satir.dil, ''); assert.equal(satir.ulke, '');
+  const d = new Date(satir.zaman);
+  assert.equal(d.getUTCDate(), 1); assert.equal(d.getUTCHours(), 0);
+  const id = vt.prepare('SELECT id FROM uyeler WHERE eposta = ?').get(e).id;
+  vt.prepare("INSERT INTO postalar (uye_id, kime, tur, konu, durum, zaman) VALUES (?, ?, 'hatirlatma', 'x', 'beklemede', 1)").run(id, e);
+  vt.close();
+  assert.equal((await a('ben', { method: 'DELETE', govde: { parola: 'gizli-parola-1' } })).durum, 200);
+  vt = new DatabaseSync(join(dir, 'akademi.sqlite'));
+  assert.equal(vt.prepare('SELECT count(*) AS n FROM postalar WHERE kime = ?').get(e).n, 0, 'e-posta adresi kalmaz');
+  vt.close();
+});
+
+test('video: tarayıcının bildirdiği konum gerçek zamandan hızlı ilerleyemez (saf işlev)', async () => {
+  const { izlemeGuncelle } = await import('../routes/ogrenme.mjs');
+  const t0 = 1_000_000;
+  let v = izlemeGuncelle({}, { sn: 200, sure: 200 }, 200, t0, 2);
+  assert.equal(v.sn, 15, 'ilk bildirimde yalnızca küçük pay');
+  v = izlemeGuncelle(v, { sn: 200, sure: 200 }, 200, t0 + 10_000, 2);
+  assert.equal(v.sn, 15 + 20 + 15, '10 sn gerçek zaman: en çok 2x + pay');
+  v = izlemeGuncelle(v, { sn: 5, sure: 200 }, 200, t0 + 11_000, 2);
+  assert.equal(v.sn, 50, 'geri gitmez');
+  v = izlemeGuncelle(v, { sn: 999, sure: 10 }, 200, t0 + 500_000, 2);
+  assert.equal(v.sn, 200, 'içerikteki süreyi aşamaz; bildirilen süre yok sayılır');
+  assert.equal(v.sure, 200);
+  const bilinmeyen = izlemeGuncelle({ sure: 300, sn: 0, t: t0 }, { sn: 10, sure: 30 }, undefined, t0 + 5_000, 2);
+  assert.equal(bilinmeyen.sure, 300, 'süre bilinmiyorsa kısaltılamaz');
 });

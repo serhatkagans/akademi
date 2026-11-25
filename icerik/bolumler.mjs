@@ -65,7 +65,7 @@ export const BOLUMLER = [
       },
       {
         id: 'girisimci-kim', tur: 'video', baslik: { tr: 'Girişimci olmak ne demek?', en: 'What does it mean to be an entrepreneur?' },
-        youtube: 'lJjILQu2xM8', kaynak: 'The School of Life',
+        youtube: 'lJjILQu2xM8', sure: 205, kaynak: 'The School of Life',
         not: { tr: 'Video İngilizce; oynatıcıdaki CC düğmesinden Türkçe altyazıyı açabilirsin.', en: 'Turn on subtitles with the CC button in the player.' },
         sorular: [],
       },
@@ -130,7 +130,7 @@ export const BOLUMLER = [
       },
       {
         id: 'firsat-video', tur: 'video', baslik: { tr: 'Fırsatları fark etmek', en: 'Spotting opportunities' },
-        youtube: 'LctfWCH5j0w', kaynak: 'Joint Research Centre (JRC), European Commission',
+        youtube: 'LctfWCH5j0w', sure: 152, kaynak: 'Joint Research Centre (JRC), European Commission',
         not: { tr: 'Avrupa Komisyonu Ortak Araştırma Merkezi\'nin EntreComp serisinden. İngilizce; CC ile altyazı açılabilir.', en: 'From the European Commission Joint Research Centre\'s EntreComp series. Subtitles via CC.' },
         sorular: [jrcSorusu(138, 'Fırsatları fark etmek', 'Spotting opportunities')],
       },
@@ -151,7 +151,7 @@ export const BOLUMLER = [
       },
       {
         id: 'entrecomp-video', tur: 'video', baslik: { tr: 'EntreComp kısaca', en: 'EntreComp in brief' },
-        youtube: 'UwZPcJky0Ko', kaynak: 'European Training Foundation',
+        youtube: 'UwZPcJky0Ko', sure: 245, kaynak: 'European Training Foundation',
         not: { tr: 'Avrupa Eğitim Vakfı (ETF) animasyonu. İngilizce; CC ile altyazı açılabilir.', en: 'Animation by the European Training Foundation (ETF). Subtitles via CC.' },
         sorular: [{
           sn: 220, tur: 'cs',
@@ -218,7 +218,7 @@ export const BOLUMLER = [
       },
       {
         id: 'dongusel-video', tur: 'video', baslik: { tr: 'Döngüsel ekonomi', en: 'The circular economy' },
-        youtube: 'zCRKvDyyHmI', kaynak: 'Ellen MacArthur Foundation',
+        youtube: 'zCRKvDyyHmI', sure: 229, kaynak: 'Ellen MacArthur Foundation',
         not: { tr: 'Video İngilizce; oynatıcıdaki CC düğmesiyle altyazıyı açabilirsin.', en: 'Turn on subtitles with the CC button in the player.' },
         sorular: [
           { sn: 45, tur: 'dy', soru: { tr: 'Döngüsel ekonomide ürünler kullanıldıktan sonra atılmak üzere tasarlanır.', en: 'In a circular economy, products are designed to be thrown away after use.' }, dogru: 1 },
@@ -246,7 +246,7 @@ export const BOLUMLER = [
       },
       {
         id: 'etik-video', tur: 'video', baslik: { tr: 'Etik ve sürdürülebilir düşünme', en: 'Ethical and sustainable thinking' },
-        youtube: 'Hg_tEWqB--s', kaynak: 'Joint Research Centre (JRC), European Commission',
+        youtube: 'Hg_tEWqB--s', sure: 124, kaynak: 'Joint Research Centre (JRC), European Commission',
         not: { tr: 'EntreComp serisinden. İngilizce; CC ile altyazı açılabilir.', en: 'From the EntreComp series. Subtitles via CC.' },
         sorular: [jrcSorusu(110, 'Etik ve sürdürülebilir düşünmek', 'Ethical and sustainable thinking')],
       },
@@ -306,7 +306,7 @@ export const BOLUMLER = [
       },
       {
         id: 'sosyal-video', tur: 'video', baslik: { tr: 'Sosyal girişimcilik nedir?', en: 'What is social entrepreneurship?' },
-        youtube: 'wVK_aQsBAVE', kaynak: 'Saïd Business School, University of Oxford',
+        youtube: 'wVK_aQsBAVE', sure: 180, kaynak: 'Saïd Business School, University of Oxford',
         not: { tr: 'Oxford Üniversitesi Saïd İşletme Okulu. İngilizce; CC ile altyazı açılabilir.', en: 'Saïd Business School, University of Oxford. Subtitles via CC.' },
         sorular: [],
       },
@@ -330,7 +330,7 @@ export const BOLUMLER = [
       },
       {
         id: 'harekete-video', tur: 'video', baslik: { tr: 'Başkalarını harekete geçirmek', en: 'Mobilising others' },
-        youtube: 'W1S34E-E9Xg', kaynak: 'Joint Research Centre (JRC), European Commission',
+        youtube: 'W1S34E-E9Xg', sure: 179, kaynak: 'Joint Research Centre (JRC), European Commission',
         not: { tr: 'EntreComp serisinden. İngilizce; CC ile altyazı açılabilir.', en: 'From the EntreComp series. Subtitles via CC.' },
         sorular: [jrcSorusu(166, 'Başkalarını harekete geçirmek', 'Mobilising others')],
       },
@@ -392,7 +392,7 @@ export const BOLUMLER = [
       },
       {
         id: 'yaraticilik-video', tur: 'video', baslik: { tr: 'Yaratıcılık', en: 'Creativity' },
-        youtube: 'NRc9h1V4vSo', kaynak: 'Joint Research Centre (JRC), European Commission',
+        youtube: 'NRc9h1V4vSo', sure: 156, kaynak: 'Joint Research Centre (JRC), European Commission',
         not: { tr: 'EntreComp serisinden. İngilizce; CC ile altyazı açılabilir.', en: 'From the EntreComp series. Subtitles via CC.' },
         sorular: [jrcSorusu(141, 'Yaratıcılık', 'Creativity')],
       },
@@ -416,7 +416,7 @@ export const BOLUMLER = [
       },
       {
         id: 'deneyim-video', tur: 'video', baslik: { tr: 'Deneyimle öğrenmek', en: 'Learning through experience' },
-        youtube: 'Q0uGwvBVCus', kaynak: 'Joint Research Centre (JRC), European Commission',
+        youtube: 'Q0uGwvBVCus', sure: 115, kaynak: 'Joint Research Centre (JRC), European Commission',
         not: { tr: 'EntreComp serisinden. İngilizce; CC ile altyazı açılabilir.', en: 'From the EntreComp series. Subtitles via CC.' },
         sorular: [jrcSorusu(102, 'Deneyimle öğrenmek', 'Learning through experience')],
       },
@@ -474,7 +474,7 @@ export const BOLUMLER = [
       },
       {
         id: 'kanvas-video', tur: 'video', baslik: { tr: 'İş Modeli Kanvası', en: 'The Business Model Canvas' },
-        youtube: 'QoAOzMTLP5s', kaynak: 'Strategyzer',
+        youtube: 'QoAOzMTLP5s', sure: 140, kaynak: 'Strategyzer',
         not: { tr: 'Kanvasın yaratıcılarının kurduğu Strategyzer\'dan. İngilizce; CC ile altyazı açılabilir.', en: 'From Strategyzer, founded by the creators of the canvas. Subtitles via CC.' },
         sorular: [{
           sn: 125, tur: 'cs',
@@ -511,7 +511,7 @@ export const BOLUMLER = [
       },
       {
         id: 'inisiyatif-video', tur: 'video', baslik: { tr: 'İnisiyatif almak', en: 'Taking the initiative' },
-        youtube: 'RHs3BriNBAY', kaynak: 'Joint Research Centre (JRC), European Commission',
+        youtube: 'RHs3BriNBAY', sure: 84, kaynak: 'Joint Research Centre (JRC), European Commission',
         not: { tr: 'EntreComp serisinden. İngilizce; CC ile altyazı açılabilir.', en: 'From the EntreComp series. Subtitles via CC.' },
         sorular: [jrcSorusu(72, 'İnisiyatif almak', 'Taking the initiative')],
       },
