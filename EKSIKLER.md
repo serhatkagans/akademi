@@ -3,6 +3,19 @@
 25 Kasım 2026 gözden geçirmesinin bulguları (`GOZDEN-GECIRME.md`'ye göre yapıldı).
 Bir madde düzeltilince kutusu işaretlenir, yanına tarih ve commit yazılır.
 
+## İçerik geldiğinde
+
+İçerik yönetim panelinden girilmeyecek: HBV dosyayı verir, `icerik/bolumler.mjs`'ye (tr/en) işlenir,
+yerelde gözden geçirilir, it/ro/pt/da çevirileri güncellenir (`scripts/ceviri-kaynak.mjs` →
+çeviri → `ceviri-denetle.mjs` → `ceviri-iz.mjs`), test edilir, canlıya alınır. Yeni videoların süresi
+içeriğe yazılmalı (`sure`), yoksa izleme sınırı tarayıcının bildirdiği süreye düşer.
+
+**Uyarı:** yönetim → İçerik → Kaydet içeriği veritabanına yazar ve koddaki içeriğin önüne geçer.
+İçerik kodda tutulduğu sürece panelden kaydedilmemeli; işlemeye başlamadan önce canlıda
+`ayarlar` tablosunda `icerik` kaydı olmadığı kontrol edilir (25.11.2026: yok).
+
+Sonra: ortaklara çeviri kontrolü e-postası (İngilizce kısa not), çeviriler güncellendikten sonra.
+
 ## Sıradaki işler (25 Kasım 2026'da kararlaştırılan sıra)
 
 Ölçüt: sistem sade kalacak — Moodle karmaşık ve kalabalık olduğu için bırakıldı. Yeni ekran ya da
