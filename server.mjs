@@ -107,4 +107,5 @@ createServer(async (req, res) => {
     console.error(e);
     if (!res.headersSent) send(res, 500, { hata: 'sunucu' });
   }
-}).listen(port, () => console.log(`Akademi: http://localhost:${port}`));
+/* HOST=127.0.0.1 (sunucu): yalnızca ters vekil erişebilsin, port dışarıya açık olmasın. */
+}).listen(port, process.env.HOST || undefined, () => console.log(`Akademi: http://${process.env.HOST || 'localhost'}:${port}`));
