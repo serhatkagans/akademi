@@ -1,0 +1,30 @@
+{
+  "name": "e-youthpreneur-akademi",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "E-YOUTHPRENEUR Academy — GSD Entrepreneurship Online Training Module (Erasmus+ KA220-YOU, WP3 A-2)",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "node scripts/gelistir.mjs",
+    "build": "vite build",
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "test": "node --test",
+    "yonetici": "node --env-file-if-exists=.env scripts/yonetici.mjs",
+    "yedek": "node scripts/yedek.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^10.6.1",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "axe-core": "^4.10.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "vite": "^8.3.1"
+  }
+}

@@ -1,0 +1,54 @@
+/* =====================================================================
+   İKİNCİ TEMA: "yeşil" — yönetim platformundaki ikinci temanın aynısı
+   (logonun tersi: bant yeşil/yaprak, vurgu mavi/halka). Seçim üst banttaki
+   tema düğmesiyle yapılır, kişinin tarayıcısında saklanır (html[data-tema]).
+   Mavi vurgu beyaz zeminde okunsun diye halkanın mavisinden koyu (#0b6aa0).
+   ===================================================================== */
+:root[data-tema="yesil"] {
+  --ana: #145f40;
+  --ana-koyu: #0b2e20;
+  --mavi: #0b6aa0;
+}
+/* Mavi vurgu yalnızca metin içi bağlantılarda (menü, adım listesi ve bantlar kendi renginde kalır). */
+:root[data-tema="yesil"] .okuma a, :root[data-tema="yesil"] .form-alt a, :root[data-tema="yesil"] .soluk a,
+:root[data-tema="yesil"] .onay a, :root[data-tema="yesil"] .geri:not(.ders-bas .geri, .bolum-bas .geri) { color: #0b6aa0; }
+/* üst çizgi: --bant-cizgi (stil-kurumsal.css) */
+:root[data-tema="yesil"] .marka small { color: #0b6aa0; }
+:root[data-tema="yesil"] .ust-nav a, :root[data-tema="yesil"] .ust-nav .bag { color: #334155; }
+:root[data-tema="yesil"] .ust-nav a.etkin { color: #145f40; background: #eaf5ef; }
+:root[data-tema="yesil"] .ust-nav .dugme { color: #fff; }
+:root[data-tema="yesil"] .dugme:hover { background: #0f4d33; }
+:root[data-tema="yesil"] .dugme.ikincil, :root[data-tema="yesil"] .kahraman .dugme { color: #145f40; }
+
+/* Bantlar: lacivert yerine yeşil geçiş */
+:root[data-tema="yesil"] .kahraman {
+  background: radial-gradient(700px 420px at 85% 10%, rgba(16, 132, 194, .25), transparent 60%),
+    radial-gradient(600px 400px at 0% 100%, rgba(140, 193, 82, .22), transparent 60%),
+    linear-gradient(120deg, #0b2e20, #145f40 55%, #1f7f55);
+}
+:root[data-tema="yesil"] .kahraman .dugme { background: #fff; }
+:root[data-tema="yesil"] .ders-bas, :root[data-tema="yesil"] .bolum-bas {
+  background: linear-gradient(110deg, #0b2e20 0%, #145f40 40%, #1f7f55 80%, #2f8f5f 100%);
+}
+:root[data-tema="yesil"] .mini-cubuk.genis i, :root[data-tema="yesil"] .bolum-cizgi li.tamam { background: #4fb0dd; }
+:root[data-tema="yesil"] .adim-no { background: #145f40; }
+:root[data-tema="yesil"] .alt { background: #0b2219; }
+
+/* Seçili/odak durumları */
+:root[data-tema="yesil"] .cevap.secili, :root[data-tema="yesil"] .secenek:has(input:checked) { border-color: #145f40; background: #eef7f2; }
+:root[data-tema="yesil"] .cevap input, :root[data-tema="yesil"] .secenek input, :root[data-tema="yesil"] .onay input { accent-color: #145f40; }
+:root[data-tema="yesil"] .olcek-nokta.secili span { background: #145f40; border-color: #145f40; }
+:root[data-tema="yesil"] .ders-liste a.su { background: #eef7f2; }
+:root[data-tema="yesil"] .sekmeler a.secili { color: #145f40; }
+:root[data-tema="yesil"] input:focus, :root[data-tema="yesil"] select:focus, :root[data-tema="yesil"] textarea:focus { box-shadow: 0 0 0 3px rgba(20, 95, 64, .14); }
+
+/* Tema düğmesi */
+.tema-dugme { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; border: 1px solid #cbd5e1;
+  background: #fff; color: #334155; cursor: pointer; padding: 0; margin-right: 6px; }
+.tema-dugme:hover { background: #f1f5f9; }
+.tema-dugme i { display: block; width: 18px; height: 18px; border-radius: 50%;
+  background: linear-gradient(135deg, #0f2a4a 50%, #1f7f55 50%); }
+:root[data-tema="yesil"] .tema-dugme i { background: linear-gradient(135deg, #1f7f55 50%, #0f2a4a 50%); }
+@media (max-width: 860px) { .tema-dugme { width: auto; height: auto; justify-content: start; gap: 10px; display: flex; border: 0; } }
+.yalniz-telefon { display: none; }
+@media (max-width: 860px) { .yalniz-telefon { display: inline; } }
