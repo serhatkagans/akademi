@@ -1,6 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { send, govde, Hata } from '../lib/http.mjs';
-import { ANKET, KANVAS } from '../icerik/modul.mjs';
+import { KANVAS, anketMaddeleri } from '../icerik/modul.mjs';
 import { guncel, aciklamaCevirisi } from '../lib/icerik.mjs';
 import { uyeyeGonder } from '../lib/posta.mjs';
 
@@ -213,17 +213,21 @@ export function ogrenmeRoutes({ db }) {
       if (d.anket) throw new Hata('anket_var', 409);
       const g = await govde(req);
       const puanlar = {};
-      for (const m of ANKET) {
+      for (const m of anketMaddeleri(uye.rol)) {
         const v = Number(g.puanlar?.[m.id]);
         if (!Number.isInteger(v) || v < 1 || v > 5) throw new Hata('anket_eksik');
         puanlar[m.id] = v;
       }
       const yorum = String(g.yorum || '').trim().slice(0, 2000);
+      /* Çift gönderime karşı: önce kişi işaretlenir (yalnızca henüz işaretli değilse); işareti
+         bu istek koymadıysa satır eklenmez. */
+      const damga = Date.now();
+      await db.run('UPDATE uyeler SET anket_at = ? WHERE id = ? AND anket_at IS NULL', [damga, uye.id]);
+      if ((await db.get('SELECT anket_at FROM uyeler WHERE id = ?', [uye.id]))?.anket_at !== damga) throw new Hata('anket_var', 409);
       /* İsimsizlik: satırda dil/ülke tutulmaz, zaman AYIN BAŞINA yuvarlanır. Böylece cevap,
          kişinin "doldurdu" zamanıyla (uyeler.anket_at) ya da ülkesiyle eşleştirilemez. */
       await db.insert('INSERT INTO anket (dil, ulke, cevaplar, zaman) VALUES (?, ?, ?, ?)',
         ['', '', JSON.stringify({ puanlar, yorum }), ayBasi(Date.now())]);
-      await db.run('UPDATE uyeler SET anket_at = ? WHERE id = ?', [Date.now(), uye.id]);
       return send(res, 200, { ok: true, durum: await durumHesapla(db, uye.id) });
     }
 
@@ -234,7 +238,13 @@ export function ogrenmeRoutes({ db }) {
       /* Okunaklı doğrulama kodu: karışan harfler (0/O, 1/I/L) yok. */
       const ab = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
       const kod = 'EYP-' + [...randomBytes(8)].map(x => ab[x % ab.length]).join('').replace(/(.{4})(.{4})/, '$1-$2');
-      await db.insert('INSERT INTO sertifikalar (uye_id, kod, ad, zaman) VALUES (?, ?, ?, ?)', [uye.id, kod, uye.ad, Date.now()]);
+      try {
+        await db.insert('INSERT INTO sertifikalar (uye_id, kod, ad, zaman) VALUES (?, ?, ?, ?)', [uye.id, kod, uye.ad, Date.now()]);
+      } catch (e) {
+        /* Aynı anda gelen ikinci istek: sertifika zaten düzenlendi (uye_id UNIQUE). */
+        if (await db.get('SELECT 1 AS x FROM sertifikalar WHERE uye_id = ?', [uye.id])) return send(res, 200, { ok: true, durum: await durumHesapla(db, uye.id) });
+        throw e;
+      }
       /* "Sertifikan hazır" e-postası (bildirimleri açıksa). Gönderilemese de sertifika düzenlenmiştir. */
       await uyeyeGonder(db, uye, 'sertifika', { kod }).catch(e => console.error('Sertifika e-postası:', e.message));
       return send(res, 200, { ok: true, durum: await durumHesapla(db, uye.id) });

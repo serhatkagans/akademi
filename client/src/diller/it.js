@@ -1,4 +1,32 @@
 export default {
+  "rap.bas": "Dal",
+  "rap.bit": "Al",
+  "rap.ulke": "Paese",
+  "rap.tumUlkeler": "Tutti i paesi",
+  "rap.temizle": "Azzera il filtro",
+  "rap.donem": "Periodo",
+  "rap.donemTum": "Dall'inizio a oggi",
+  "rap.donemNot": "Con un periodo selezionato: si contano i partecipanti registrati in quelle date; completamenti, test e certificati sono quelli fino alla fine del periodo. Il questionario è anonimo, quindi è filtrato solo per data; i download sono contati nel periodo; accessi e tempo sono cumulativi.",
+  "rap.testGirme.n": "Percentuale: hanno sostenuto il test / hanno completato il modulo (tasso di completamento della valutazione)",
+  "rap.testGecme.n": "Percentuale: superato / sostenuto il test",
+  "rap.anketOrani.n": "Percentuale: risposte al questionario / hanno superato il test (tasso di risposta)",
+  "rap.ulkeler": "Per paese",
+  "rap.anketUlke": "Il questionario è anonimo e non può essere filtrato per paese; i risultati seguenti riguardano tutti i paesi.",
+  "rap.yanit": "Risposte",
+  "rap.yalnizGenclik": "solo per youth worker",
+  "rap.kaynaklar": "Download delle risorse",
+  "rap.kaynak": "Risorsa",
+  "rap.indToplam": "Totale",
+  "rap.indDonem": "Nel periodo",
+  "yon.test.oran": "sostenuto {g}% · superato {p}%",
+  "yon.anket.oran": "tasso di risposta {o}%",
+  "yon.video.bozuk": "{n} video non si riproducono più.",
+  "yon.video.m": "Questi passi non possono essere completati; sostituisci il video nella schermata Contenuti.",
+  "yon.video.yok": "rimosso o privato",
+  "yon.video.gomulemez": "incorporamento disattivato",
+  "hesap.ad.duzenle": "Correggi",
+  "hesap.ad.kaydet": "Salva",
+  "hesap.ad.not": "Se hai un certificato, anche il nome sul certificato viene corretto.",
   "genel.atla": "Vai al contenuto",
   "genel.tablo": "Tabella (scorre lateralmente)",
   "video.izlenen": "Parte già guardata",
@@ -481,12 +509,36 @@ export default {
 };
 
 export const gizlilik = [
-  ["Chi tratta i tuoi dati?", "Questa piattaforma è gestita dai partner del progetto E-YOUTHPRENEUR, finanziato nell'ambito di Erasmus+ KA220-YOU. Titolare del trattamento e contatto: [da confermare con il coordinatore del progetto]."],
-  ["Quali dati?", "Il tuo nome, email, paese, anno di nascita, il gruppo a cui ti sei unito/a (se presente), ciò che scrivi nel quaderno dell'idea, come ti descrivi (giovane / youth worker / altro), un'eventuale dichiarazione facoltativa di “minori opportunità”, una dichiarazione di consenso del genitore se hai meno di 18 anni; i tuoi progressi nella formazione (parti lette, tempo di visione dei video, risultati del test), il numero di accessi e il tempo trascorso sulla piattaforma."],
-  ["Perché?", "Per offrirti la formazione, salvare i tuoi progressi, rilasciare il tuo certificato e produrre statistiche aggregate (non identificative) per i rapporti del progetto all'Unione europea. Base giuridica: il tuo consenso."],
-  ["Quaderno dell'idea e gruppi", "Ciò che scrivi nelle attività e nel canvas di progetto è visibile solo a te. Se entri in un gruppo, il suo formatore vede il tuo nome e i tuoi progressi (parti, test, certificato, ultimo accesso), ma non la tua email né ciò che hai scritto. Puoi lasciare un gruppo in qualsiasi momento."],
-  ["Questionario", "Il questionario di gradimento è anonimo: le tue risposte non vengono salvate insieme al tuo nome o alla tua email."],
-  ["Video", "I video vengono mostrati con il player di YouTube in modalità di privacy avanzata (youtube-nocookie.com). Quando avvii un video, YouTube (Google) può trattare dati tecnici."],
-  ["Per quanto tempo?", "Finché il tuo account esiste e per il tempo necessario alla rendicontazione del progetto. Puoi eliminare il tuo account in qualsiasi momento dalla pagina “Il mio account”; anche i tuoi progressi e il tuo certificato vengono eliminati."],
-  ["I tuoi diritti", "Hai il diritto di accedere ai tuoi dati, rettificarli e cancellarli, e di revocare il tuo consenso."]
+ [
+  "Chi tratta i tuoi dati?",
+  "Questa piattaforma è gestita dai partner del progetto E-YOUTHPRENEUR, finanziato nell'ambito di Erasmus+ KA220-YOU. Titolare del trattamento e contatto: [da confermare con il coordinatore del progetto]."
+ ],
+ [
+  "Quali dati?",
+  "Il tuo nome, email, paese, anno di nascita, il gruppo a cui ti sei unito/a (se presente), ciò che scrivi nel quaderno dell'idea, come ti descrivi (giovane / youth worker / altro), un'eventuale dichiarazione facoltativa di “minori opportunità”, una dichiarazione di consenso del genitore se hai meno di 18 anni; i tuoi progressi nella formazione (parti lette, tempo di visione dei video, risultati del test), il numero di accessi e il tempo trascorso sulla piattaforma."
+ ],
+ [
+  "Perché?",
+  "Per offrirti la formazione, salvare i tuoi progressi, rilasciare il tuo certificato e produrre statistiche aggregate (non identificative) per i rapporti del progetto all'Unione europea. Base giuridica: il tuo consenso. Finché il tuo account è attivo puoi ricevere brevi email: quando il tuo certificato è pronto e se non accedi per un po' (al massimo 3 promemoria). Puoi disattivarle nella pagina \"Il mio account\" o con il link presente in ogni email; l'email di reimpostazione della password viene inviata solo quando la richiedi."
+ ],
+ [
+  "Quaderno dell'idea e gruppi",
+  "Ciò che scrivi nelle attività e nel canvas di progetto è visibile solo a te. Se entri in un gruppo, il suo formatore vede il tuo nome e i tuoi progressi (parti, test, certificato, ultimo accesso), ma non la tua email né ciò che hai scritto. Puoi lasciare un gruppo in qualsiasi momento."
+ ],
+ [
+  "Questionario",
+  "Il questionario di gradimento è anonimo: le tue risposte non vengono salvate insieme al tuo nome o alla tua email. Le risposte sono conservate senza lingua, paese o data esatta, solo con il mese."
+ ],
+ [
+  "Video",
+  "I video vengono mostrati con il player di YouTube in modalità di privacy avanzata (youtube-nocookie.com). Quando avvii un video, YouTube (Google) può trattare dati tecnici."
+ ],
+ [
+  "Per quanto tempo?",
+  "Finché il tuo account esiste e per il tempo necessario alla rendicontazione del progetto. Puoi eliminare il tuo account in qualsiasi momento dalla pagina “Il mio account”; anche i tuoi progressi e il tuo certificato vengono eliminati. Per sicurezza, viene conservato per 14 giorni un backup giornaliero del database; un account eliminato esce anche dai backup al termine di questo periodo. Il registro delle email inviate a te viene eliminato insieme al tuo account."
+ ],
+ [
+  "I tuoi diritti",
+  "Hai il diritto di accedere ai tuoi dati, rettificarli e cancellarli, e di revocare il tuo consenso. Nella pagina \"Il mio account\" puoi scaricare tutti i tuoi dati in un unico file, correggere il tuo nome, cambiare la password ed eliminare il tuo account."
+ ]
 ];

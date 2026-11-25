@@ -23,7 +23,7 @@ async function bolumuBitir(a, id) {
 const PORT = 3700 + Math.floor(Math.random() * 500);
 const ADRES = `http://localhost:${PORT}`;
 const dir = mkdtempSync(join(tmpdir(), 'akademi-ek-'));
-const ortam = { ...process.env, DATA_DIR: dir, DATABASE_URL: '', HATIRLATMA: 'kapali', YEDEK: 'kapali', SMTP_HOST: '', KAYIT_SINIR: '1000', VIDEO_HIZ: '1e9' };
+const ortam = { ...process.env, DATA_DIR: dir, DATABASE_URL: '', HATIRLATMA: 'kapali', YEDEK: 'kapali', SMTP_HOST: '', KAYIT_SINIR: '1000', VIDEO_HIZ: '1e9', VIDEO_DENETIM: 'kapali' };
 let sunucu;
 
 function istemci() {
@@ -364,4 +364,102 @@ test('video: tarayıcının bildirdiği konum gerçek zamandan hızlı ilerleyem
   assert.equal(v.sure, 200);
   const bilinmeyen = izlemeGuncelle({ sure: 300, sn: 0, t: t0 }, { sn: 10, sure: 30 }, undefined, t0 + 5_000, 2);
   assert.equal(bilinmeyen.sure, 300, 'süre bilinmiyorsa kısaltılamaz');
+});
+
+/* Güncel içeriğe göre bütün adımları, testi ve (isteğe bağlı) anketi tamamlar. */
+async function hepsiniBitir(a, ic, { anket } = {}) {
+  for (const bl of ic.bolumler) for (const s of bl.adimlar) {
+    const y = `ogren/adim/${bl.id}/${s.id}`;
+    if (s.tur === 'video') { await a(y + '/video', { method: 'POST', govde: { sn: 0, sure: 500 } }); await a(y + '/video', { method: 'POST', govde: { sn: 9999, sure: 500 } }); }
+    if (s.tur === 'video' || s.tur === 'sina') for (const [i, q] of s.sorular.entries()) await a(y + '/soru', { method: 'POST', govde: { soru: i, cevap: q.dogru } });
+    else if (s.tur === 'etkinlik') await a('ogren/not', { method: 'POST', govde: { anahtar: `adim:${bl.id}:${s.id}`, metin: 'x' } });
+    else await a(y + '/goruldu', { method: 'POST', govde: {} });
+  }
+  assert.ok((await a('ogren/test', { method: 'POST', govde: { cevaplar: ic.test.map(q => q.dogru) } })).veri.gecti);
+  if (anket) return a('ogren/anket', { method: 'POST', govde: anket });
+}
+
+test('anket: gençlik çalışanına ek maddeler sorulur, gence sorulmaz; çift gönderim tek satır', async () => {
+  const { ANKET } = await import('../icerik/modul.mjs');
+  const ic = (await (await yonetici())('yonetim/icerik')).veri;
+  const ortak = Object.fromEntries(ANKET.filter(m => !m.rol).map(m => [m.id, 5]));
+  const hepsi = Object.fromEntries(ANKET.map(m => [m.id, 5]));
+  const genc = await kaydol({ rol: 'genc' });
+  assert.equal((await hepsiniBitir(genc, ic, { anket: { puanlar: ortak } })).durum, 200, 'gence yalnızca ortak maddeler');
+  const egitmen = await kaydol({ rol: 'genclik' });
+  assert.equal((await hepsiniBitir(egitmen, ic, { anket: { puanlar: ortak } })).veri.hata, 'anket_eksik', 'gençlik çalışanı ek maddeleri doldurmalı');
+  const [r1, r2] = await Promise.all([1, 2].map(() => egitmen('ogren/anket', { method: 'POST', govde: { puanlar: hepsi, yorum: 'cift-gonderim' } })));
+  assert.deepEqual([r1.durum, r2.durum].sort(), [200, 409]);
+  const { DatabaseSync } = await import('node:sqlite');
+  const vt = new DatabaseSync(join(dir, 'akademi.sqlite'));
+  assert.equal(vt.prepare("SELECT count(*) AS n FROM anket WHERE cevaplar LIKE '%cift-gonderim%'").get().n, 1);
+  vt.close();
+  const icerik = await fetch(ADRES + '/api/icerik?dil=tr').then(r => r.json());
+  assert.ok(icerik.anket.some(m => m.rol === 'genclik'));
+});
+
+test('ad düzeltme: hesaptaki ve sertifikadaki ad birlikte düzelir', async () => {
+  const ic = (await (await yonetici())('yonetim/icerik')).veri;
+  const { ANKET } = await import('../icerik/modul.mjs');
+  const a = await kaydol({ rol: 'genc' });
+  await hepsiniBitir(a, ic, { anket: { puanlar: Object.fromEntries(ANKET.filter(m => !m.rol).map(m => [m.id, 3])) } });
+  await a('ogren/sertifika', { method: 'POST', govde: {} });
+  const kod = (await a('ogren/durum')).veri.sertifika.kod;
+  assert.equal((await a('ben/ad', { method: 'POST', govde: { ad: 'x' } })).veri.hata, 'ad');
+  assert.equal((await a('ben/ad', { method: 'POST', govde: { ad: '  Ayşe   Yılmaz ' } })).durum, 200);
+  assert.equal((await a('ben')).veri.uye.ad, 'Ayşe Yılmaz');
+  assert.equal((await fetch(ADRES + '/api/dogrula/' + kod).then(r => r.json())).ad, 'Ayşe Yılmaz');
+});
+
+test('rapor süzgeci: ülke ve dönem; günlük indirme sayacı; 9 sayfalı Excel', async () => {
+  const y = await yonetici();
+  await kaydol({ ulke: 'IT' }); await kaydol({ ulke: 'IT' }); await kaydol({ ulke: 'DK' });
+  const it = (await y('yonetim/ozet?ulke=IT')).veri;
+  assert.equal(it.suzgec.ulke, 'IT');
+  assert.equal(it.kayitli, it.ulke.IT);
+  assert.equal(it.ulke.DK, 0);
+  assert.equal(it.anket.oran, null, 'anket ülkeye göre süzülemez');
+  assert.deepEqual(it.ulkeDokum.map(u => u.ulke), ['IT']);
+  const gelecek = (await y('yonetim/ozet?bas=2099-01-01&bit=2099-12-31')).veri;
+  assert.equal(gelecek.kayitli, 0);
+  const bugun = new Date().toISOString().slice(0, 10);
+  const pdf = Buffer.from('%PDF-1.4 sayac');
+  const { veri: { id } } = await y('yonetim/kaynak', { method: 'POST', ham: pdf, basliklar: { 'Content-Type': 'application/octet-stream', 'x-dosya': 'sayac.pdf', 'x-baslik-tr': 'Sayac' } });
+  await fetch(ADRES + `/api/kaynak/${id}/indir`).then(r => r.arrayBuffer());
+  await fetch(ADRES + `/api/kaynak/${id}/indir`).then(r => r.arrayBuffer());
+  const donem = (await y(`yonetim/ozet?bas=${bugun}&bit=${bugun}`)).veri;
+  const k = donem.indirmeler.find(x => x.id === id);
+  assert.equal(k.donem, 2); assert.equal(k.toplam, 2);
+  assert.equal((await y('yonetim/ozet?bas=2099-01-01')).veri.indirmeler.find(x => x.id === id).donem, 0);
+  const x = await y(`yonetim/rapor.xlsx?dil=en&ulke=IT&bas=${bugun}`);
+  assert.equal(x.durum, 200);
+  assert.ok(x.veri.includes(Buffer.from('xl/worksheets/sheet9.xml')), '9 sayfa');
+  await y('yonetim/kaynak/' + id, { method: 'DELETE' });
+});
+
+test('video denetimi: bozuk video yönetici göstergelerinde görünür', async () => {
+  const y = await yonetici();
+  const ic = (await y('yonetim/icerik')).veri;
+  const v = ic.bolumler.flatMap(b => b.adimlar.filter(a => a.tur === 'video').map(a => ({ bolum: b.id, adim: a.id, youtube: a.youtube })))[0];
+  const { DatabaseSync } = await import('node:sqlite');
+  const vt = new DatabaseSync(join(dir, 'akademi.sqlite'));
+  vt.prepare("INSERT OR REPLACE INTO ayarlar (anahtar, deger, guncelleme) VALUES ('video_durum', ?, ?)")
+    .run(JSON.stringify({ zaman: Date.now(), videolar: [{ ...v, baslik: 'x', bolumAd: 'y', durum: 'yok' }, { bolum: 'b', adim: 'a', youtube: 'zzzzzzzzzzz', durum: 'yok' }] }), Date.now());
+  vt.close();
+  const o = (await y('yonetim/ozet')).veri;
+  assert.equal(o.video.bozuk.length, 1, 'içerikte olmayan video sayılmaz');
+  assert.equal(o.video.bozuk[0].youtube, v.youtube);
+});
+
+test('doğrulama: bozuk içerik 400, yaş sınırı doğum yılına göre temkinli', async () => {
+  const y = await yonetici();
+  const ic = (await y('yonetim/icerik')).veri;
+  const bolumler = [{ ...ic.bolumler[0], adimlar: [null] }, ...ic.bolumler.slice(1)];
+  const r = await y('yonetim/icerik', { method: 'PUT', govde: { bolumler, test: ic.test, gecme: ic.gecme } });
+  assert.equal(r.durum, 400);
+  const buYil = new Date().getFullYear();
+  const a = istemci();
+  const kayit = yil => a('kayit', { method: 'POST', govde: { ad: 'Yas Deneme', eposta: `yas${Math.random()}@ornek.test`, parola: 'gizli-parola-1', ulke: 'TR', dogumYili: yil, rol: 'genc', onay: true } });
+  assert.equal((await kayit(buYil - 13)).veri.hata, 'yas_kucuk', 'bu yıl 13 olacak biri henüz 12 olabilir');
+  assert.equal((await kayit(buYil - 18)).veri.hata, 'veli', 'bu yıl 18 olacak biri henüz 17 olabilir');
 });

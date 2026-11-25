@@ -28,7 +28,7 @@ const kayit = (ek = {}) => ({ ad: 'Deneme Genç', eposta: `g${Math.random()}@orn
   ulke: 'TR', dogumYili: 2004, rol: 'genc', onay: true, ...ek });
 
 before(async () => {
-  sunucu = spawn(process.execPath, ['server.mjs'], { env: { ...process.env, PORT: String(PORT), DATA_DIR: dir, DATABASE_URL: '', VIDEO_HIZ: '1e9', YEDEK: 'kapali', HATIRLATMA: 'kapali' }, stdio: 'pipe' });
+  sunucu = spawn(process.execPath, ['server.mjs'], { env: { ...process.env, PORT: String(PORT), DATA_DIR: dir, DATABASE_URL: '', VIDEO_HIZ: '1e9', YEDEK: 'kapali', HATIRLATMA: 'kapali', VIDEO_DENETIM: 'kapali' }, stdio: 'pipe' });
   for (let i = 0; i < 50; i++) {
     try { await fetch(ADRES + '/api/ben'); return; } catch { await new Promise(r => setTimeout(r, 100)); }
   }

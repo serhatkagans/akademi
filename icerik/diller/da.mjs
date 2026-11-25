@@ -397,6 +397,11 @@ export default {
     { "soru": "Hvad beskriver EU's DigComp-ramme?", "secenekler": ["Digitale kompetencer", "Regler for grønt byggeri", "Selskabsskattesatser", "Sportskonkurrencer"] }
   ],
   "anket": {
+    "acik": "Indholdet og materialerne var klare og lette at forstå.",
+    "mentor": "Kurset har styrket mine evner til at vejlede og være mentor for unge i iværksætterprojekter.",
+    "uygula": "Jeg kan bruge det, jeg har lært, i mit eget ungdomsarbejde.",
+    "gsd": "Kurset er velegnet til at støtte unges grønne, sociale og digitale iværksætterprojekter.",
+    "guven": "Jeg føler mig tryg ved selv at anvende projektformatet efter dette kursus.",
     "memnun": "Alt i alt er jeg tilfreds med dette kursus.",
     "yararli": "Indholdet var nyttigt for mig.",
     "kolay": "Platformen var nem at bruge (også på min mobil).",

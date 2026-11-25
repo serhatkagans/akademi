@@ -1,4 +1,32 @@
 export default {
+  "rap.bas": "De la",
+  "rap.bit": "Până la",
+  "rap.ulke": "Țară",
+  "rap.tumUlkeler": "Toate țările",
+  "rap.temizle": "Șterge filtrul",
+  "rap.donem": "Perioadă",
+  "rap.donemTum": "De la început până azi",
+  "rap.donemNot": "Cu o perioadă selectată: se numără participanții înregistrați în acele date; finalizările, testele și certificatele sunt cele până la sfârșitul perioadei. Chestionarul este anonim, deci se filtrează doar după dată; descărcările se numără în perioadă; autentificările și timpul sunt cumulative.",
+  "rap.testGirme.n": "Procent: au susținut testul / au finalizat modulul (rata de finalizare a evaluării)",
+  "rap.testGecme.n": "Procent: au promovat / au susținut testul",
+  "rap.anketOrani.n": "Procent: răspunsuri la chestionar / au promovat testul (rata de răspuns)",
+  "rap.ulkeler": "Pe țări",
+  "rap.anketUlke": "Chestionarul este anonim și nu poate fi filtrat pe țări; rezultatele de mai jos acoperă toate țările.",
+  "rap.yanit": "Răspunsuri",
+  "rap.yalnizGenclik": "doar pentru lucrătorii de tineret",
+  "rap.kaynaklar": "Descărcări de resurse",
+  "rap.kaynak": "Resursă",
+  "rap.indToplam": "Total",
+  "rap.indDonem": "În perioadă",
+  "yon.test.oran": "susținut {g}% · promovat {p}%",
+  "yon.anket.oran": "rata de răspuns {o}%",
+  "yon.video.bozuk": "{n} videoclipuri nu mai pot fi redate.",
+  "yon.video.m": "Acești pași nu pot fi finalizați; înlocuiește videoclipul în ecranul Conținut.",
+  "yon.video.yok": "șters sau privat",
+  "yon.video.gomulemez": "încorporare dezactivată",
+  "hesap.ad.duzenle": "Corectează",
+  "hesap.ad.kaydet": "Salvează",
+  "hesap.ad.not": "Dacă ai un certificat, se corectează și numele de pe acesta.",
   "genel.atla": "Sari la conținut",
   "genel.tablo": "Tabel (se derulează lateral)",
   "video.izlenen": "Parte vizionată",
@@ -481,12 +509,36 @@ export default {
 };
 
 export const gizlilik = [
-  ["Cine îți prelucrează datele?", "Această platformă este administrată de partenerii proiectului E-YOUTHPRENEUR, finanțat prin Erasmus+ KA220-YOU. Operatorul de date și persoana de contact: [de confirmat cu coordonatorul proiectului]."],
-  ["Ce date?", "Numele, e-mailul, țara, anul nașterii, grupul în care te-ai înscris (dacă e cazul), ce scrii în caietul de idei, cum te descrii (tânăr / lucrător de tineret / altceva), o declarație opțională privind „mai puține oportunități”, o declarație de consimțământ parental dacă ai sub 18 ani; progresul tău în curs (părți citite, timpul de vizionare a videoclipurilor, rezultatele la test), numărul de autentificări și timpul petrecut pe platformă."],
-  ["De ce?", "Pentru a-ți oferi cursul, a-ți salva progresul, a-ți emite certificatul și a produce statistici agregate (care nu permit identificarea) pentru rapoartele proiectului către Uniunea Europeană. Temeiul juridic: consimțământul tău."],
-  ["Caietul de idei și grupurile", "Ce scrii în sarcini și în canvasul proiectului poți vedea doar tu. Dacă te alături unui grup, formatorul acestuia îți vede numele și progresul (părți, test, certificat, ultima autentificare), dar nu și e-mailul sau ce ai scris. Poți părăsi un grup oricând."],
-  ["Chestionarul", "Chestionarul de feedback este anonim: răspunsurile tale nu sunt salvate împreună cu numele sau e-mailul tău."],
-  ["Videoclipurile", "Videoclipurile sunt afișate cu playerul YouTube cu confidențialitate sporită (youtube-nocookie.com). Când redai un videoclip, YouTube (Google) poate prelucra date tehnice."],
-  ["Cât timp?", "Atât timp cât există contul tău și cât este necesar pentru raportarea proiectului. Îți poți șterge contul oricând de pe pagina „Contul meu”; progresul și certificatul tău sunt șterse și ele."],
-  ["Drepturile tale", "Ai dreptul de a-ți accesa, rectifica și șterge datele și de a-ți retrage consimțământul."]
+ [
+  "Cine îți prelucrează datele?",
+  "Această platformă este administrată de partenerii proiectului E-YOUTHPRENEUR, finanțat prin Erasmus+ KA220-YOU. Operatorul de date și persoana de contact: [de confirmat cu coordonatorul proiectului]."
+ ],
+ [
+  "Ce date?",
+  "Numele, e-mailul, țara, anul nașterii, grupul în care te-ai înscris (dacă e cazul), ce scrii în caietul de idei, cum te descrii (tânăr / lucrător de tineret / altceva), o declarație opțională privind „mai puține oportunități”, o declarație de consimțământ parental dacă ai sub 18 ani; progresul tău în curs (părți citite, timpul de vizionare a videoclipurilor, rezultatele la test), numărul de autentificări și timpul petrecut pe platformă."
+ ],
+ [
+  "De ce?",
+  "Pentru a-ți oferi cursul, a-ți salva progresul, a-ți emite certificatul și a produce statistici agregate (care nu permit identificarea) pentru rapoartele proiectului către Uniunea Europeană. Temeiul juridic: consimțământul tău. Cât timp contul tău este activ, poți primi e-mailuri scurte: când certificatul tău este gata și dacă nu te-ai autentificat de ceva vreme (cel mult 3 mementouri). Le poți dezactiva din pagina „Contul meu” sau cu linkul din fiecare e-mail; e-mailul de resetare a parolei se trimite doar când îl ceri."
+ ],
+ [
+  "Caietul de idei și grupurile",
+  "Ce scrii în sarcini și în canvasul proiectului poți vedea doar tu. Dacă te alături unui grup, formatorul acestuia îți vede numele și progresul (părți, test, certificat, ultima autentificare), dar nu și e-mailul sau ce ai scris. Poți părăsi un grup oricând."
+ ],
+ [
+  "Chestionarul",
+  "Chestionarul de feedback este anonim: răspunsurile tale nu sunt salvate împreună cu numele sau e-mailul tău. Răspunsurile sunt păstrate fără limbă, țară sau dată exactă, doar cu luna."
+ ],
+ [
+  "Videoclipurile",
+  "Videoclipurile sunt afișate cu playerul YouTube cu confidențialitate sporită (youtube-nocookie.com). Când redai un videoclip, YouTube (Google) poate prelucra date tehnice."
+ ],
+ [
+  "Cât timp?",
+  "Atât timp cât există contul tău și cât este necesar pentru raportarea proiectului. Îți poți șterge contul oricând de pe pagina „Contul meu”; progresul și certificatul tău sunt șterse și ele. Pentru securitate, o copie de rezervă zilnică a bazei de date este păstrată 14 zile; un cont șters dispare și din copiile de rezervă după această perioadă. Evidența e-mailurilor trimise ție se șterge odată cu contul."
+ ],
+ [
+  "Drepturile tale",
+  "Ai dreptul de a-ți accesa, rectifica și șterge datele și de a-ți retrage consimțământul. Din pagina „Contul meu” îți poți descărca toate datele într-un singur fișier, îți poți corecta numele, îți poți schimba parola și îți poți șterge contul."
+ ]
 ];

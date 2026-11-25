@@ -12,6 +12,7 @@ import { gizliYukle } from './lib/posta.mjs';
 import { dillerYukle, gecerliDil, ceviri, yukluDiller } from './lib/diller.mjs';
 import { hatirlatmalariGonder } from './lib/hatirlatma.mjs';
 import { yedekZamanla } from './lib/yedek.mjs';
+import { videoDenetimZamanla } from './lib/video-denetim.mjs';
 import { kaynakRoutes } from './routes/kaynak.mjs';
 import { hesapRoutes } from './routes/hesap.mjs';
 import { ogrenmeRoutes, dogrulaRoutes } from './routes/ogrenme.mjs';
@@ -31,6 +32,11 @@ await gizliYukle(db);
 const hatirlat = () => hatirlatmalariGonder(db).catch(e => console.error('Hatırlatma:', e.message));
 if (process.env.HATIRLATMA !== 'kapali') { setTimeout(hatirlat, 60000).unref(); setInterval(hatirlat, 3600000).unref(); }
 yedekZamanla(db);
+videoDenetimZamanla(db);
+/* Süresi dolmuş oturum ve parola jetonları günde bir silinir (tablo şişmesin). */
+const temizle = () => Promise.all([db.run('DELETE FROM oturumlar WHERE bitis < ?', [Date.now()]), db.run('DELETE FROM parola_jetonlari WHERE bitis < ?', [Date.now()])])
+  .catch(e => console.error('Temizlik:', e.message));
+setTimeout(temizle, 30000).unref(); setInterval(temizle, 86400000).unref();
 const zincir = [hesapRoutes({ db }), ogrenmeRoutes({ db }), dogrulaRoutes({ db }), grupRoutes({ db }), kaynakRoutes({ db }), yonetimRoutes({ db })];
 const DIST = resolve('dist');
 

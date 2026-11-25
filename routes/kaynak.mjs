@@ -39,6 +39,9 @@ export function kaynakRoutes({ db }) {
       const k = await db.get('SELECT * FROM kaynaklar WHERE id = ?', [Number(indir[1])]);
       if (!k || !existsSync(yolu(k))) throw new Hata('bulunamadi', 404);
       await db.run('UPDATE kaynaklar SET indirme = indirme + 1 WHERE id = ?', [k.id]);
+      /* Günlük sayaç: raporda dönem içi indirme (ör. e-kitap için "ilk 6 ayda 200 indirme" hedefi). */
+      await db.run(`INSERT INTO kaynak_indirme (kaynak_id, gun, sayi) VALUES (?, ?, 1)
+        ON CONFLICT (kaynak_id, gun) DO UPDATE SET sayi = kaynak_indirme.sayi + 1`, [k.id, new Date().toISOString().slice(0, 10)]);
       const ascii = k.dosya_adi.replace(/[^\x20-\x7e]/g, '_').replace(/["\\]/g, '_');
       res.writeHead(200, {
         'Content-Type': k.mime, 'Content-Length': k.boyut, 'Cache-Control': 'no-store', 'Content-Security-Policy': 'sandbox',

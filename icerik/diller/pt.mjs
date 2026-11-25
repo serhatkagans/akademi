@@ -427,6 +427,11 @@ export default {
     }
   ],
   "anket": {
+    "acik": "Os conteúdos e os materiais foram claros e fáceis de compreender.",
+    "mentor": "A formação melhorou as minhas competências para orientar e acompanhar jovens em projetos empreendedores.",
+    "uygula": "Consigo aplicar o que aprendi no meu próprio trabalho com jovens.",
+    "gsd": "A formação é adequada para apoiar os projetos de empreendedorismo verde, social e digital dos jovens.",
+    "guven": "Sinto-me confiante para aplicar sozinho/a o formato de projeto depois desta formação.",
     "memnun": "No geral, estou satisfeito/a com esta formação.",
     "yararli": "Os conteúdos foram úteis para mim.",
     "kolay": "A plataforma foi fácil de usar (também no telemóvel).",

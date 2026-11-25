@@ -9,6 +9,8 @@ import { OTURUM_GUN, MIN_PAROLA } from '../lib/ayar.mjs';
  * Hesap uçları: kayıt, giriş, çıkış, ben, dil, hesabı silme.
  * Kayıt herkese açıktır (eğitim ücretsiz ve açık erişimli — başvuru taahhüdü).
  */
+const SAHTE_OZET = parolaOzeti(randomBytes(16).toString('hex'));
+
 export function hesapRoutes({ db }) {
   const sonNabiz = new Map();
   async function oturumAc(res, uyeId) {
@@ -40,7 +42,8 @@ export function hesapRoutes({ db }) {
       const anahtarlar = [['giris:' + istemciAdresi(req) + ':' + eposta, 8], ['giris:' + istemciAdresi(req), 40]];
       if (cokDeneme(anahtarlar)) throw new Hata('cok_deneme', 429);
       const u = await db.get('SELECT id, parola FROM uyeler WHERE eposta = ?', [eposta]);
-      if (!u || !parolaDogru(g.parola, u.parola)) throw new Hata('giris', 401);
+      /* Hesap yoksa da aynı scrypt işi yapılır: yanıt süresi hesabın varlığını ele vermesin. */
+      if (!parolaDogru(g.parola, u?.parola || SAHTE_OZET) || !u) throw new Hata('giris', 401);
       denemeSifirla(anahtarlar.map(a => a[0]));
       await oturumAc(res, u.id);
       return send(res, 200, { ok: true });
@@ -56,6 +59,17 @@ export function hesapRoutes({ db }) {
     if (yol === '/api/ben' && req.method === 'GET') {
       if (!uye) return send(res, 200, { uye: null });
       return send(res, 200, { uye: { ad: uye.ad, eposta: uye.eposta, ulke: uye.ulke, rol: uye.rol, dil: uye.dil, yonetici: !!uye.yonetici, bildirim: !!uye.bildirim } });
+    }
+
+    /* Ad düzeltme (Hesabım). Sertifika varsa üstündeki ad da düzeltilir: amaç yazım hatasını gidermek;
+       doğrulama sayfası her zaman güncel adı gösterir. */
+    if (yol === '/api/ben/ad' && req.method === 'POST') {
+      if (!uye) throw new Hata('oturum', 401);
+      const ad = String((await govde(req)).ad || '').trim().replace(/\s+/g, ' ');
+      if (ad.length < 2 || ad.length > 100) throw new Hata('ad');
+      await db.run('UPDATE uyeler SET ad = ? WHERE id = ?', [ad, uye.id]);
+      await db.run('UPDATE sertifikalar SET ad = ? WHERE uye_id = ?', [ad, uye.id]);
+      return send(res, 200, { ok: true });
     }
 
     /* E-posta bildirimleri: Hesabım'daki anahtar. */

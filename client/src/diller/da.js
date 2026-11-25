@@ -1,4 +1,32 @@
 export default {
+  "rap.bas": "Fra",
+  "rap.bit": "Til",
+  "rap.ulke": "Land",
+  "rap.tumUlkeler": "Alle lande",
+  "rap.temizle": "Ryd filter",
+  "rap.donem": "Periode",
+  "rap.donemTum": "Fra start til i dag",
+  "rap.donemNot": "Med en valgt periode: deltagere, der registrerede sig i perioden, tælles med; gennemførelser, test og certifikater er dem frem til periodens slutning. Spørgeskemaet er anonymt og filtreres derfor kun efter dato; downloads tælles i perioden; logins og tid er akkumulerede.",
+  "rap.testGirme.n": "Andel: tog testen / gennemførte modulet (gennemførelsesgrad for evalueringen)",
+  "rap.testGecme.n": "Andel: bestod / tog testen",
+  "rap.anketOrani.n": "Andel: besvarelser / bestod testen (svarprocent)",
+  "rap.ulkeler": "Efter land",
+  "rap.anketUlke": "Spørgeskemaet er anonymt og kan ikke filtreres efter land; resultaterne nedenfor dækker alle lande.",
+  "rap.yanit": "Svar",
+  "rap.yalnizGenclik": "kun til ungdomsarbejdere",
+  "rap.kaynaklar": "Downloads af materialer",
+  "rap.kaynak": "Materiale",
+  "rap.indToplam": "I alt",
+  "rap.indDonem": "I perioden",
+  "yon.test.oran": "tog {g}% · bestod {p}%",
+  "yon.anket.oran": "svarprocent {o}%",
+  "yon.video.bozuk": "{n} video(er) kan ikke længere afspilles.",
+  "yon.video.m": "Disse trin kan ikke gennemføres; udskift videoen på skærmen Indhold.",
+  "yon.video.yok": "fjernet eller privat",
+  "yon.video.gomulemez": "indlejring slået fra",
+  "hesap.ad.duzenle": "Ret",
+  "hesap.ad.kaydet": "Gem",
+  "hesap.ad.not": "Hvis du har et certifikat, rettes navnet på det også.",
   "genel.atla": "Spring til indhold",
   "genel.tablo": "Tabel (kan rulles sidelæns)",
   "video.izlenen": "Set indtil nu",
@@ -481,12 +509,36 @@ export default {
 };
 
 export const gizlilik = [
-  ["Hvem behandler dine data?", "Denne platform drives af partnerne i projektet E-YOUTHPRENEUR, der er finansieret under Erasmus+ KA220-YOU. Dataansvarlig og kontakt: [skal bekræftes med projektkoordinatoren]."],
-  ["Hvilke data?", "Dit navn, din e-mail, dit land, dit fødselsår, den gruppe, du eventuelt er med i, det, du skriver i idébogen, hvordan du beskriver dig selv (ung / ungdomsarbejder / andet), en valgfri erklæring om \"færre muligheder\", en erklæring om forældresamtykke, hvis du er under 18 år; dit fremskridt i kurset (læste dele, set videotid, testresultater), antal logins og tid brugt på platformen."],
-  ["Hvorfor?", "For at kunne tilbyde kurset, gemme dit fremskridt, udstede dit certifikat og lave samlet (ikke-identificerende) statistik til projektets rapporter til Den Europæiske Union. Retsgrundlag: dit samtykke."],
-  ["Idébog og grupper", "Det, du skriver i opgaverne og på projektlærredet, kan kun du se. Hvis du bliver medlem af en gruppe, kan gruppens underviser se dit navn og dit fremskridt (dele, test, certifikat, seneste login), men ikke din e-mail eller det, du har skrevet. Du kan til enhver tid forlade en gruppe."],
-  ["Evaluering", "Evalueringsskemaet er anonymt: dine svar gemmes ikke sammen med dit navn eller din e-mail."],
-  ["Video", "Videoerne vises med YouTubes afspiller med udvidet privatlivsbeskyttelse (youtube-nocookie.com). Når du afspiller en video, kan YouTube (Google) behandle tekniske data."],
-  ["Hvor længe?", "Så længe din konto findes, og så længe det er nødvendigt for projektets rapportering. Du kan til enhver tid slette din konto på siden \"Min konto\"; dit fremskridt og dit certifikat slettes også."],
-  ["Dine rettigheder", "Du har ret til indsigt i, berigtigelse og sletning af dine data samt til at trække dit samtykke tilbage."]
+ [
+  "Hvem behandler dine data?",
+  "Denne platform drives af partnerne i projektet E-YOUTHPRENEUR, der er finansieret under Erasmus+ KA220-YOU. Dataansvarlig og kontakt: [skal bekræftes med projektkoordinatoren]."
+ ],
+ [
+  "Hvilke data?",
+  "Dit navn, din e-mail, dit land, dit fødselsår, den gruppe, du eventuelt er med i, det, du skriver i idébogen, hvordan du beskriver dig selv (ung / ungdomsarbejder / andet), en valgfri erklæring om \"færre muligheder\", en erklæring om forældresamtykke, hvis du er under 18 år; dit fremskridt i kurset (læste dele, set videotid, testresultater), antal logins og tid brugt på platformen."
+ ],
+ [
+  "Hvorfor?",
+  "For at kunne tilbyde kurset, gemme dit fremskridt, udstede dit certifikat og lave samlet (ikke-identificerende) statistik til projektets rapporter til Den Europæiske Union. Retsgrundlag: dit samtykke. Så længe din konto er åben, kan du få korte e-mails: når dit certifikat er klar, og hvis du ikke har logget ind i et stykke tid (højst 3 påmindelser). Du kan slå dem fra på siden \"Min konto\" eller via linket i hver e-mail; en e-mail om nulstilling af adgangskode sendes kun, når du beder om det."
+ ],
+ [
+  "Idébog og grupper",
+  "Det, du skriver i opgaverne og på projektlærredet, kan kun du se. Hvis du bliver medlem af en gruppe, kan gruppens underviser se dit navn og dit fremskridt (dele, test, certifikat, seneste login), men ikke din e-mail eller det, du har skrevet. Du kan til enhver tid forlade en gruppe."
+ ],
+ [
+  "Evaluering",
+  "Evalueringsskemaet er anonymt: dine svar gemmes ikke sammen med dit navn eller din e-mail. Svarene gemmes uden sprog, land eller præcis dato, kun med måneden."
+ ],
+ [
+  "Video",
+  "Videoerne vises med YouTubes afspiller med udvidet privatlivsbeskyttelse (youtube-nocookie.com). Når du afspiller en video, kan YouTube (Google) behandle tekniske data."
+ ],
+ [
+  "Hvor længe?",
+  "Så længe din konto findes, og så længe det er nødvendigt for projektets rapportering. Du kan til enhver tid slette din konto på siden \"Min konto\"; dit fremskridt og dit certifikat slettes også. Af sikkerhedshensyn gemmes en daglig backup af databasen i 14 dage; en slettet konto forsvinder også fra backupperne efter denne periode. Registreringen af e-mails sendt til dig slettes sammen med din konto."
+ ],
+ [
+  "Dine rettigheder",
+  "Du har ret til indsigt i, berigtigelse og sletning af dine data samt til at trække dit samtykke tilbage. På siden \"Min konto\" kan du downloade alle dine data som én fil, rette dit navn, skifte adgangskode og slette din konto."
+ ]
 ];

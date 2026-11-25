@@ -77,7 +77,16 @@ export const ANKET = [
   { id: 'kolay', tr: 'Platformu kullanmak kolaydı (telefonda da).', en: 'The platform was easy to use (also on my phone).' },
   { id: 'hazir', tr: 'Kendi proje fikrimi geliştirmeye daha hazır hissediyorum.', en: 'I feel more ready to develop my own project idea.' },
   { id: 'oneri', tr: 'Bu eğitimi bir arkadaşıma tavsiye ederim.', en: 'I would recommend this training to a friend.' },
+  { id: 'acik', tr: 'İçerik ve materyaller açık ve anlaşılırdı.', en: 'The content and materials were clear and easy to understand.' },
+  /* Yalnızca gençlik çalışanlarına (rol 'genclik') sorulur — başvurudaki modül göstergeleri:
+     rehberlik/mentorluk becerisine katkı, uygulanabilirlik, GSD projelerine uygunluk, formatı bağımsız uygulama güveni. */
+  { id: 'mentor', rol: 'genclik', tr: 'Eğitim, gençlere girişimcilik projelerinde rehberlik ve mentorluk yapma becerimi geliştirdi.', en: 'The training improved my skills in guiding and mentoring young people in entrepreneurial projects.' },
+  { id: 'uygula', rol: 'genclik', tr: 'Öğrendiklerimi kendi gençlik çalışmamda uygulayabilirim.', en: 'I can apply what I learned in my own youth work practice.' },
+  { id: 'gsd', rol: 'genclik', tr: 'Eğitim, gençlerin yeşil, sosyal ve dijital girişimcilik projelerini desteklemek için uygundur.', en: "The training is relevant for supporting young people's green, social and digital entrepreneurship projects." },
+  { id: 'guven', rol: 'genclik', tr: 'Proje formatını bu eğitimden sonra kendi başıma uygulayabileceğime güveniyorum.', en: 'I feel confident applying the project format on my own after this training.' },
 ];
+/* Kişiye sorulan maddeler: rolü olmayanlar herkese, rolü olanlar yalnızca o role. */
+export const anketMaddeleri = rol => ANKET.filter(m => !m.rol || m.rol === rol);
 
 /* Ortak ülkeleri (kayıt formu ve göstergeler). */
 export const ULKELER = ['TR', 'IT', 'RO', 'NL', 'PT', 'DK', 'DIGER'];

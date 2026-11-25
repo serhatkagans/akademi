@@ -8,6 +8,7 @@ import { smtpVar } from '../lib/posta.mjs';
 import { hatirlatmalariGonder } from '../lib/hatirlatma.mjs';
 import { gostergeHesapla } from '../lib/gosterge.mjs';
 import { sonYedek } from '../lib/yedek.mjs';
+import { videoDurumu } from '../lib/video-denetim.mjs';
 import { raporXlsx } from '../lib/rapor.mjs';
 
 /* Okunaklı rastgele parola (karışan 0/O, 1/l/I yok). */
@@ -97,11 +98,16 @@ export function yonetimRoutes({ db }) {
       return send(res, 200, { gonderilen: await hatirlatmalariGonder(db) });
     }
 
-    if (yol === '/api/yonetim/ozet' && req.method === 'GET') return send(res, 200, { ...await gostergeHesapla(db), yedek: sonYedek() });
+    /* ?bas=YYYY-MM-DD&bit=YYYY-MM-DD&ulke=TR — rapor süzgeci (bkz. lib/gosterge.mjs). */
+    if (yol === '/api/yonetim/ozet' && req.method === 'GET') {
+      const q = Object.fromEntries(new URL(req.url, 'http://x').searchParams);
+      return send(res, 200, { ...await gostergeHesapla(db, q), yedek: sonYedek(), video: await videoDurumu(db) });
+    }
 
     /* Ulusal Ajans raporu için gösterge özeti — Excel (?dil=tr|en). PDF: istemcideki yazdırılabilir rapor sayfası. */
     if (yol === '/api/yonetim/rapor.xlsx' && req.method === 'GET') {
-      const { dosya, veri } = await raporXlsx(db, new URL(req.url, 'http://x').searchParams.get('dil'));
+      const q = Object.fromEntries(new URL(req.url, 'http://x').searchParams);
+      const { dosya, veri } = await raporXlsx(db, q.dil, q);
       res.writeHead(200, {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'Cache-Control': 'no-store',
         'Content-Disposition': `attachment; filename="${dosya}"`, 'Content-Length': veri.length,

@@ -61,12 +61,19 @@ function Gostergeler() {
         <div className="rap-dugmeler"><a className="dugme ikincil" href="api/yonetim/uyeler.csv">{t('yon.csv')}</a><a className="dugme" href="#/yonetim/rapor">{t('rap.baslik')}</a></div>
       </div>
 
+      {o.video?.bozuk?.length > 0 && (
+        <div className="video-uyari" role="alert">
+          <b>{t('yon.video.bozuk', { n: o.video.bozuk.length })}</b> <span>{t('yon.video.m')}</span>
+          <ul>{o.video.bozuk.map(v => <li key={v.bolum + v.adim}><a href={'#/yonetim/icerik'}>{v.bolumAd} › {v.baslik}</a> <small>({v.youtube} · {t('yon.video.' + v.durum)})</small></li>)}</ul>
+        </div>
+      )}
       <div className="gostergeler">
         <Kart baslik={t('yon.kayitli')} deger={o.kayitli} />
         <Kart baslik={t('yon.tamamlama')} deger={`%${o.tamamlamaOrani}`} alt={`${o.tumunuBitiren} · ${t('yon.hedef', { h: '≥%70' })}`} hedef={70} oran={o.tamamlamaOrani} />
         <Kart baslik={t('yon.sertifika')} deger={o.sertifika} alt={`%${o.sertifikaOrani} · ${t('yon.hedef', { h: '≥%65' })}`} hedef={65} oran={o.sertifikaOrani} />
         <Kart baslik={t('yon.azfirsat')} deger={`%${o.azFirsat.oran}`} alt={`${o.azFirsat.sayi} · ${t('yon.hedef', { h: '%40' })}`} hedef={40} oran={o.azFirsat.oran} />
-        <Kart baslik={t('yon.test')} deger={`${o.test.giren} / ${o.test.gecen}`} />
+        <Kart baslik={t('yon.test')} deger={`${o.test.giren} / ${o.test.gecen}`} alt={t('yon.test.oran', { g: o.test.girmeOrani, p: o.test.gecmeOrani })} />
+        <Kart baslik={t('rap.anketSayi')} deger={o.anket.sayi} alt={t('yon.anket.oran', { o: o.anket.oran ?? 0 })} />
         <Kart baslik={t('yon.giris')} deger={o.giris} />
         <Kart baslik={t('yon.sure')} deger={t('dk', { n: o.ortSureDk })} />
         <Kart baslik={t('yon.video')} deger={`%${o.videoOrtIzleme}`} />

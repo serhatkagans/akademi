@@ -427,6 +427,11 @@ export default {
     }
   ],
   "anket": {
+    "acik": "Conținutul și materialele au fost clare și ușor de înțeles.",
+    "mentor": "Formarea mi-a îmbunătățit abilitățile de a-i ghida și de a le fi mentor tinerilor în proiecte antreprenoriale.",
+    "uygula": "Pot aplica ceea ce am învățat în propria mea muncă de tineret.",
+    "gsd": "Formarea este potrivită pentru a sprijini proiectele de antreprenoriat verde, social și digital ale tinerilor.",
+    "guven": "Am încredere că pot aplica singur(ă) formatul de proiect după această formare.",
     "memnun": "În general, sunt mulțumit(ă) de acest curs.",
     "yararli": "Conținutul mi-a fost util.",
     "kolay": "Platforma a fost ușor de folosit (inclusiv pe telefon).",

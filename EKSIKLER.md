@@ -8,14 +8,16 @@ Bir madde düzeltilince kutusu işaretlenir, yanına tarih ve commit yazılır.
 Ölçüt: sistem sade kalacak — Moodle karmaşık ve kalabalık olduğu için bırakıldı. Yeni ekran ya da
 yeni kavram getiren iş, ihtiyaç gerçekten doğmadan yapılmaz.
 
-1. **A1–A4** hataları (kullanıcı hiçbir fark görmez).
-2. **F1** ankete gençlik çalışanı maddeleri (yalnızca rol `genclik` ise 4 ek soru) ve **F3** eksik oranlar.
-3. **Video kontrolü**: haftada bir, içerikteki YouTube videoları hâlâ açılıyor ve gömülebiliyor mu;
+1. ✔ **A1–A4** hataları (kullanıcı hiçbir fark görmez).
+2. ✔ **F1** ankete gençlik çalışanı maddeleri (yalnızca rol `genclik` ise 4 ek soru) ve **F3** eksik oranlar.
+3. ✔ **Video kontrolü** (25.11.2026, `lib/video-denetim.mjs`, YouTube oEmbed): haftada bir, içerikteki YouTube videoları hâlâ açılıyor ve gömülebiliyor mu;
    bozulan varsa yönetim panelinde tek satır uyarı (bozulmadıkça görünmez). Videolar başkalarının
    kanallarında; biri silinirse o adım, bölüm ve sertifika kilitlenir.
-4. **Site izleme**: sistemin dışında, ücretsiz bir izleme servisi (proje sahibi kurar; izlenecek adres
+4. ◐ **Site izleme** (adres ve adımlar `DAGITIM.md`'de; kurulum proje sahibinde): sistemin dışında, ücretsiz bir izleme servisi (proje sahibi kurar; izlenecek adres
    `https://aiotechs.cloud/akademi/api/ben`).
-5. Sonra: F4 (e-kitap indirmeleri), C1–C2 (rapor dönemi ve ülke kırılımı), D küçük kusurlar.
+5. ✔ F4, C1–C2, C3, D küçük kusurlar (25.11.2026).
+
+**Geriye kalanlar yalnızca karar ya da başkasının işi:** B1 yaş sınırı, B2 hatırlatma izni (hukuk), B3 veri sorumlusu, B4 e-posta hesabı, B5 yedeği başka makineye alma, site izleme kurulumu, E1 içerik (HBV/içerik ekibi), E2 çeviri gözden geçirme (ortaklar), F2 gençlik çalışanı içeriği (HBV formatı), F5 Felemenkçe (CECF), F6 beş yıl barındırma. F9 sadelik ölçütüyle yapılmadı.
 
 Her işten sonra: `npm test`, derleme, canlıya alma (hafıza notundaki güncelleme adımları), GitHub.
 
@@ -54,63 +56,79 @@ forum / mesajlaşma / canlı ders / ödev / SCORM.
   izin sorulmuyor. Hukukçu baksın.
 - [ ] **B3 · Aydınlatma metni.** Veri sorumlusu ve iletişim bilgisi yazılmamış. Ayrıca eklenmeli: silinen
   hesap yedeklerde 14 gün daha durur; hatırlatma e-postaları; grup eğitmeninin gördükleri (var).
+  ◐ 25.11.2026: metne eklendi (6 dilde): yedeklerin 14 gün saklanması, hatırlatma e-postaları ve kapatma yolu, anketin dil/ülke/tam tarih olmadan saklanması, veri indirme ve ad düzeltme hakkı. **Kalan: veri sorumlusu ve iletişim bilgisi (proje sahibi) ve hukuki gözden geçirme.**
 - [ ] **B4 · E-posta (SMTP) ayarı yok.** Sertifika, hatırlatma ve "parolamı unuttum" e-postaları gitmiyor
   ("beklemede"). Arayüz yine de "gönderildi" diyor. Gönderen adres kararı bekleniyor; o zamana kadar parolayı
   yönetici Kullanıcılar ekranından sıfırlar.
 - [ ] **B5 · Yedek aynı diskte** (`/opt/akademi/data/yedek`). Başka bir makineye düzenli kopya yok.
+  ◐ 25.11.2026: `DAGITIM.md`'de yedeği kendi bilgisayarına alma komutu ve Görev Zamanlayıcısı notu var. **Kalan: proje sahibinin bunu kurması.**
 
 ## C. Eksik özellikler
 
-- [ ] **C1 · Raporda dönem seçimi yok.** Göstergeler ve Excel/PDF hep baştan bugüne toplam; ara rapor için
+- [x] **C1 · Raporda dönem seçimi yok.** Göstergeler ve Excel/PDF hep baştan bugüne toplam; ara rapor için
   tarih aralığı seçilemiyor (`lib/gosterge.mjs`, `lib/rapor.mjs`).
-- [ ] **C2 · Ülke kırılımı eksik.** Ülkeye göre yalnızca kayıt sayısı var; tamamlama, sertifika ve "daha az
+  ✔ 25.11.2026: Rapor sekmesinde başlangıç/bitiş tarihi: o dönemde kaydolanlar; tamamlama/test/sertifika dönem sonuna kadar; indirmeler dönem içinde; Excel aynı süzgeçle.
+- [x] **C2 · Ülke kırılımı eksik.** Ülkeye göre yalnızca kayıt sayısı var; tamamlama, sertifika ve "daha az
   fırsat" ülke bazında yok. Ortaklar kendi rakamlarını isteyecek.
-- [ ] **C3 · Ad düzeltme yok.** Adını yanlış yazan kişinin sertifikası yanlış adla çıkar; kişi de yönetici
+  ✔ 25.11.2026: Rapor sekmesinde ülke süzgeci + "Ülkelere göre" tablosu (kayıt, bitiren, tamamlama, sertifika, daha az fırsat); Excel'de "Ülkeler" sayfası.
+- [x] **C3 · Ad düzeltme yok.** Adını yanlış yazan kişinin sertifikası yanlış adla çıkar; kişi de yönetici
   de düzeltemez.
+  ✔ 25.11.2026: Hesabım'da "Düzelt": ad düzelir, sertifika varsa üstündeki ad da.
 
 ## F. Başvuru metnine ve yönetim paneline göre eksikler
 
 Kaynak: `../erasmusreact/KA220-YOU-70AE2506.md` (başvuru formu) ve yönetim panelinin özellikleri;
 ikisi de yalnızca okundu.
 
-- [ ] **F1 · Anket başvurudaki nitel göstergeleri karşılamıyor.** Başvuru (modül, "qualitative indicators"):
+- [x] **F1 · Anket başvurudaki nitel göstergeleri karşılamıyor.** Başvuru (modül, "qualitative indicators"):
   içeriğin açıklığı/anlaşılırlığı/kullanışlılığı, rehberlik ve mentorluk becerisine katkı (öz değerlendirme),
   gençlik çalışmasında uygulanabilirlik, gençlerin GSD projelerini desteklemeye uygunluk, proje formatını
   bağımsız uygulama güveni. `ANKET` (`icerik/modul.mjs`) beş genel madde içeriyor; gençlik çalışanına
   yönelik dört madde yok. *Çözüm:* role göre ek maddeler (rol `genclik` ise sorulur), 6 dilde.
+  ✔ 25.11.2026: Herkese 1 yeni madde (açıklık/anlaşılırlık) + yalnızca gençlik çalışanlarına 4 madde (mentorluk, uygulanabilirlik, GSD uygunluğu, formatı bağımsız uygulama güveni); 6 dilde. Raporda madde başına yanıt sayısı.
 - [ ] **F2 · Gençlik çalışanı içeriği yok.** Başvuru modülün amacını "gençlik çalışanları ve proje
   personelinin proje formatını uygulamayı öğrenmesi" ve yüz yüze eğitime (LTTA) hazırlık olarak tanımlıyor.
   Altı bölüm gence hitap ediyor. Format HBV'den (WP3 A-1) gelecek; "formatı nasıl uygularım" bölümünün
   yeri ayrılmalı. **Bekleyen: HBV.**
-- [ ] **F3 · Oranlar eksik.** Başvuru "post-module survey response rate" ve "assessment completion rate"
+- [x] **F3 · Oranlar eksik.** Başvuru "post-module survey response rate" ve "assessment completion rate"
   diyor; panelde ve raporda yalnızca sayılar var (`lib/gosterge.mjs`, `lib/rapor.mjs`).
   *Çözüm:* anket yanıt oranı (anket / modülü tamamlayan), teste girme ve geçme oranı.
-- [ ] **F4 · E-kitap indirmeleri ayrı izlenmiyor.** Başvuru: E-kitap için ilk 6 ayda en az 200
+  ✔ 25.11.2026: Değerlendirme tamamlama oranı (teste giren / modülü bitiren), test geçme oranı, anket yanıt oranı (yanıt / testi geçen); panelde, raporda ve Excel'de.
+- [x] **F4 · E-kitap indirmeleri ayrı izlenmiyor.** Başvuru: E-kitap için ilk 6 ayda en az 200
   indirme/görüntüleme. Yönetim paneli dışarıya kapalı olduğu için e-kitap orada yayımlanmayacak; doğal yeri
   akademinin Kaynaklar sayfası. Sayaç var ama raporda yalnızca toplam: dosya başına sayı ve tarih aralığı yok.
   *Çözüm:* raporda kaynak başına indirme; indirmeleri tarihli tutmak (ilk 6 ay hesabı için).
+  ✔ 25.11.2026: İndirmeler gün gün tutuluyor (`kaynak_indirme`); raporda kaynak başına toplam ve dönem içi indirme (e-kitabın "ilk 6 ay" hedefi dönem seçerek okunur). Kayıttan önceki indirmeler yalnızca toplamda.
 - [ ] **F5 · Felemenkçe yok.** CECF Hollanda'dan; başvuru "çıktılar ortakların ulusal dillerinde" diyor.
   Yönetim panelinde de yok. **Sorulacak: CECF / koordinatör.**
 - [ ] **F6 · Beş yıl yayında kalma taahhüdü.** Başvuru: modül proje bitiminden sonra en az beş yıl açık
   kalacak. Şu an kişisel sunucuda, aiotechs.cloud adresinde; barındırmayı kimin üstleneceği ve kalıcı adres
   yazılı değil. **Karar: proje sahibi / koordinatör.**
-- [ ] **F7 · Ortak bazında görünüm yok.** Panelde her ortak kendi kurumunun kayıtlarını görüyor; akademide
+- [x] **F7 · Ortak bazında görünüm yok.** Panelde her ortak kendi kurumunun kayıtlarını görüyor; akademide
   yönetici ya hep ya hiç. En sade çözüm raporda ülke süzgeci (C2 ile birlikte yapılır).
-- [ ] **F8 · Kurulum belgesi ve sürüm etiketi yok.** Panelde `DAGITIM.md` ve sürüm numaraları var; akademinin
+  ✔ 25.11.2026: C2 ile birlikte: rapordaki ülke süzgeci.
+- [x] **F8 · Kurulum belgesi ve sürüm etiketi yok.** Panelde `DAGITIM.md` ve sürüm numaraları var; akademinin
   sunucu kurulum/güncelleme adımları depoda yazılı değil.
+  ✔ 25.11.2026: `DAGITIM.md` (yerleşim, güncelleme, geri dönüş, yedek, izleme, yönetici hesabı); sürüm `package.json` 1.1.0 + Git etiketi.
 - [ ] **F9 · Pilot geri bildirimi (isteğe bağlı).** Başvuruda 24 kişi içeriği test edecek; tek kanal sondaki
   anket. Adım bazında "bu adımda sorun var" bildirimi yok.
 
 ## D. Küçük kusurlar
 
-- [ ] **D1** Süresi dolan oturum satırları (`oturumlar`) hiç silinmiyor.
-- [ ] **D2** Sertifika ucuna aynı anda iki istek gelirse ikincisi 500 verir (UNIQUE ihlali); anket ucunda
+- [x] **D1** Süresi dolan oturum satırları (`oturumlar`) hiç silinmiyor.
+  ✔ 25.11.2026: Süresi dolan oturum ve parola jetonları günde bir siliniyor.
+- [x] **D2** Sertifika ucuna aynı anda iki istek gelirse ikincisi 500 verir (UNIQUE ihlali); anket ucunda
   iki satır oluşabilir (`routes/ogrenme.mjs`).
-- [ ] **D3** Bölüm/adım sırası yalnızca arayüzde zorlanıyor; API ile sıra atlanabilir (göstergeleri etkilemez).
-- [ ] **D4** Doğum tarihi yalnızca yıl: 12 yaşındaki biri 13 sayılabilir (`lib/uye.mjs`, `yas`).
-- [ ] **D5** İçerik kaydında bozuk bir adım (ör. `null`) 400 yerine 500 döner (`lib/icerik.mjs`, `adimDenetle`).
-- [ ] **D6** Giriş yanıt süresi hesabın var olup olmadığını ele verir (hesap yoksa scrypt çalışmaz); kayıt
+  ✔ 25.11.2026: Anket: kişi önce koşullu işaretleniyor, ikinci istek 409 alıyor (tek satır). Sertifika: aynı anda ikinci istek mevcut sertifikayı döndürüyor.
+- [x] **D3** Bölüm/adım sırası yalnızca arayüzde zorlanıyor; API ile sıra atlanabilir (göstergeleri etkilemez).
+  ✔ 25.11.2026: Hata değil: bölüm ve adımlar bilinçli olarak serbest (arayüzde de kilit yok); sunucu ile arayüz tutarlı.
+- [x] **D4** Doğum tarihi yalnızca yıl: 12 yaşındaki biri 13 sayılabilir (`lib/uye.mjs`, `yas`).
+  ✔ 25.11.2026: Alt sınır ve veli onayı için en düşük olası yaş kullanılıyor (yıl − doğum yılı − 1).
+- [x] **D5** İçerik kaydında bozuk bir adım (ör. `null`) 400 yerine 500 döner (`lib/icerik.mjs`, `adimDenetle`).
+  ✔ 25.11.2026: Bozuk bölüm/adım/soru/seçenek artık 400 `icerik:<yer>` dönüyor.
+- [x] **D6** Giriş yanıt süresi hesabın var olup olmadığını ele verir (hesap yoksa scrypt çalışmaz); kayıt
   zaten `eposta_var` döndürüyor. Düşük öncelik.
+  ✔ 25.11.2026: Hesap yoksa da aynı scrypt işi yapılıyor.
 
 ## E. Başkalarının işi (takip)
 

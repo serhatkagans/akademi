@@ -21,6 +21,13 @@ export default function Hesabim() {
   }
   async function ayril() { await api('grup/ayril', { method: 'POST' }); setGMesaj(''); grupYukle(); }
 
+  const [adAcik, setAdAcik] = useState(false);
+  const [adHata, setAdHata] = useState('');
+  async function adKaydet(e) {
+    e.preventDefault(); setAdHata('');
+    try { await api('ben/ad', { method: 'POST', govde: { ad: new FormData(e.target).get('ad') } }); await yenile(); setAdAcik(false); }
+    catch (x) { setAdHata(x.kod); }
+  }
   const [pHata, setPHata] = useState('');
   const [pTamam, setPTamam] = useState(false);
   async function parolaDegistir(e) {
@@ -44,7 +51,17 @@ export default function Hesabim() {
       <a className="geri" href="#/pano">{t('genel.geri')}</a>
       <h1>{t('hesap.baslik')}</h1>
       <dl className="kutu bilgiler">
-        <div><dt>{t('alan.ad')}</dt><dd>{uye.ad}</dd></div>
+        <div><dt>{t('alan.ad')}</dt><dd>
+          {adAcik ? (
+            <form className="satir-form ad-form" onSubmit={adKaydet}>
+              <input name="ad" defaultValue={uye.ad} required minLength={2} maxLength={100} autoComplete="name" aria-label={t('alan.ad')} autoFocus />
+              <button className="dugme kucuk">{t('hesap.ad.kaydet')}</button>
+              <button type="button" className="bag" onClick={() => setAdAcik(false)}>{t('genel.vazgec')}</button>
+              <small className="soluk ad-not">{t('hesap.ad.not')}</small>
+              <HataKutusu kod={adHata} />
+            </form>
+          ) : <>{uye.ad} <button className="bag kucuk-yazi" onClick={() => setAdAcik(true)}>{t('hesap.ad.duzenle')}</button></>}
+        </dd></div>
         <div><dt>{t('alan.eposta')}</dt><dd>{uye.eposta}</dd></div>
         <div><dt>{t('alan.ulke')}</dt><dd>{t('ulke.' + uye.ulke)}</dd></div>
         <div><dt>{t('alan.rol')}</dt><dd>{t('rol.' + uye.rol)}</dd></div>

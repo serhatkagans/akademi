@@ -5,7 +5,9 @@ import Simge from '../bilesenler/Simge.jsx';
 import { HataKutusu } from '../bilesenler/Kabuk.jsx';
 
 export default function Anket() {
-  const { t, icerik, durum, setDurum } = useB();
+  const { t, uye, icerik, durum, setDurum } = useB();
+  /* Gençlik çalışanlarına ek maddeler (başvurudaki modül göstergeleri); diğerleri yalnızca ortak maddeleri görür. */
+  const maddeler = icerik.anket.filter(m => !m.rol || m.rol === uye.rol);
   const [puan, setPuan] = useState({});
   const [hata, setHata] = useState('');
   const [bekle, setBekle] = useState(false);
@@ -19,7 +21,7 @@ export default function Anket() {
 
   async function gonder(e) {
     e.preventDefault();
-    if (Object.keys(puan).length < icerik.anket.length) { setHata('anket'); return; }
+    if (maddeler.some(m => !puan[m.id])) { setHata('anket'); return; }
     setBekle(true);
     try {
       const r = await api('ogren/anket', { method: 'POST', govde: { puanlar: puan, yorum: new FormData(e.target).get('yorum') } });
@@ -33,7 +35,7 @@ export default function Anket() {
       <h1>{t('anket.baslik')}</h1>
       <p className="soluk">{t('anket.alt')}</p>
       <form onSubmit={gonder} className="anket">
-        {icerik.anket.map(m => (
+        {maddeler.map(m => (
           <fieldset key={m.id} className="kutu olcek">
             <legend>{m.metin}</legend>
             <div className="olcek-satir">

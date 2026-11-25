@@ -1,4 +1,32 @@
 export default {
+  "rap.bas": "De",
+  "rap.bit": "Até",
+  "rap.ulke": "País",
+  "rap.tumUlkeler": "Todos os países",
+  "rap.temizle": "Limpar filtro",
+  "rap.donem": "Período",
+  "rap.donemTum": "Desde o início até hoje",
+  "rap.donemNot": "Com um período selecionado: contam-se os participantes registados nessas datas; conclusões, testes e certificados são os obtidos até ao fim do período. O questionário é anónimo, por isso só é filtrado por data; as transferências são contadas no período; acessos e tempo são cumulativos.",
+  "rap.testGirme.n": "Taxa: fizeram o teste / concluíram o módulo (taxa de conclusão da avaliação)",
+  "rap.testGecme.n": "Taxa: aprovados / fizeram o teste",
+  "rap.anketOrani.n": "Taxa: respostas ao questionário / aprovados no teste (taxa de resposta)",
+  "rap.ulkeler": "Por país",
+  "rap.anketUlke": "O questionário é anónimo e não pode ser filtrado por país; os resultados abaixo abrangem todos os países.",
+  "rap.yanit": "Respostas",
+  "rap.yalnizGenclik": "apenas para animadores/as de juventude",
+  "rap.kaynaklar": "Transferências de recursos",
+  "rap.kaynak": "Recurso",
+  "rap.indToplam": "Total",
+  "rap.indDonem": "No período",
+  "yon.test.oran": "fizeram {g}% · aprovados {p}%",
+  "yon.anket.oran": "taxa de resposta {o}%",
+  "yon.video.bozuk": "{n} vídeo(s) já não podem ser reproduzidos.",
+  "yon.video.m": "Estes passos não podem ser concluídos; substitui o vídeo no ecrã Conteúdos.",
+  "yon.video.yok": "removido ou privado",
+  "yon.video.gomulemez": "incorporação desativada",
+  "hesap.ad.duzenle": "Corrigir",
+  "hesap.ad.kaydet": "Guardar",
+  "hesap.ad.not": "Se tiveres um certificado, o nome nele também é corrigido.",
   "genel.atla": "Saltar para o conteúdo",
   "genel.tablo": "Tabela (desliza para o lado)",
   "video.izlenen": "Parte já vista",
@@ -481,12 +509,36 @@ export default {
 };
 
 export const gizlilik = [
-  ["Quem trata os teus dados?", "Esta plataforma é gerida pelos parceiros do projeto E-YOUTHPRENEUR, financiado no âmbito do Erasmus+ KA220-YOU. Responsável pelo tratamento e contacto: [a confirmar com o coordenador do projeto]."],
-  ["Que dados?", "O teu nome, e-mail, país, ano de nascimento, o grupo a que aderiste (se for o caso), o que escreves no caderno de ideias, como te descreves (jovem / animador/a de juventude / outro), uma declaração opcional de \"menos oportunidades\", uma declaração de consentimento parental se tiveres menos de 18 anos; o teu progresso na formação (partes lidas, tempo de vídeo visto, resultados do teste), o número de sessões iniciadas e o tempo passado na plataforma."],
-  ["Para quê?", "Para disponibilizar a formação, guardar o teu progresso, emitir o teu certificado e produzir estatísticas agregadas (que não identificam ninguém) para os relatórios do projeto à União Europeia. Fundamento jurídico: o teu consentimento."],
-  ["Caderno de ideias e grupos", "O que escreves nas tarefas e no canvas do projeto só é visível para ti. Se aderires a um grupo, o formador ou formadora desse grupo vê o teu nome e progresso (partes, teste, certificado, última sessão), mas não o teu e-mail nem o que escreveste. Podes sair de um grupo a qualquer momento."],
-  ["Questionário", "O questionário de avaliação é anónimo: as tuas respostas não são guardadas com o teu nome nem com o teu e-mail."],
-  ["Vídeo", "Os vídeos são mostrados com o leitor de privacidade melhorada do YouTube (youtube-nocookie.com). Quando reproduzes um vídeo, o YouTube (Google) pode tratar dados técnicos."],
-  ["Durante quanto tempo?", "Enquanto a tua conta existir e durante o tempo necessário para os relatórios do projeto. Podes eliminar a tua conta a qualquer momento na página \"A minha conta\"; o teu progresso e o teu certificado também são eliminados."],
-  ["Os teus direitos", "Tens o direito de aceder, retificar e apagar os teus dados e de retirar o teu consentimento."]
+ [
+  "Quem trata os teus dados?",
+  "Esta plataforma é gerida pelos parceiros do projeto E-YOUTHPRENEUR, financiado no âmbito do Erasmus+ KA220-YOU. Responsável pelo tratamento e contacto: [a confirmar com o coordenador do projeto]."
+ ],
+ [
+  "Que dados?",
+  "O teu nome, e-mail, país, ano de nascimento, o grupo a que aderiste (se for o caso), o que escreves no caderno de ideias, como te descreves (jovem / animador/a de juventude / outro), uma declaração opcional de \"menos oportunidades\", uma declaração de consentimento parental se tiveres menos de 18 anos; o teu progresso na formação (partes lidas, tempo de vídeo visto, resultados do teste), o número de sessões iniciadas e o tempo passado na plataforma."
+ ],
+ [
+  "Para quê?",
+  "Para disponibilizar a formação, guardar o teu progresso, emitir o teu certificado e produzir estatísticas agregadas (que não identificam ninguém) para os relatórios do projeto à União Europeia. Fundamento jurídico: o teu consentimento. Enquanto a tua conta estiver ativa, podes receber e-mails curtos: quando o teu certificado estiver pronto e se não entrares durante algum tempo (no máximo 3 lembretes). Podes desativá-los na página \"A minha conta\" ou com a ligação em cada e-mail; o e-mail de redefinição da palavra-passe só é enviado quando o pedes."
+ ],
+ [
+  "Caderno de ideias e grupos",
+  "O que escreves nas tarefas e no canvas do projeto só é visível para ti. Se aderires a um grupo, o formador ou formadora desse grupo vê o teu nome e progresso (partes, teste, certificado, última sessão), mas não o teu e-mail nem o que escreveste. Podes sair de um grupo a qualquer momento."
+ ],
+ [
+  "Questionário",
+  "O questionário de avaliação é anónimo: as tuas respostas não são guardadas com o teu nome nem com o teu e-mail. As respostas são guardadas sem língua, país ou data exata, apenas com o mês."
+ ],
+ [
+  "Vídeo",
+  "Os vídeos são mostrados com o leitor de privacidade melhorada do YouTube (youtube-nocookie.com). Quando reproduzes um vídeo, o YouTube (Google) pode tratar dados técnicos."
+ ],
+ [
+  "Durante quanto tempo?",
+  "Enquanto a tua conta existir e durante o tempo necessário para os relatórios do projeto. Podes eliminar a tua conta a qualquer momento na página \"A minha conta\"; o teu progresso e o teu certificado também são eliminados. Por segurança, é mantida durante 14 dias uma cópia de segurança diária da base de dados; uma conta eliminada sai também das cópias de segurança no fim deste período. O registo dos e-mails enviados para ti é eliminado juntamente com a tua conta."
+ ],
+ [
+  "Os teus direitos",
+  "Tens o direito de aceder, retificar e apagar os teus dados e de retirar o teu consentimento. Na página \"A minha conta\" podes descarregar todos os teus dados num único ficheiro, corrigir o teu nome, alterar a palavra-passe e eliminar a tua conta."
+ ]
 ];
