@@ -16,6 +16,10 @@ içeriğe yazılmalı (`sure`), yoksa izleme sınırı tarayıcının bildirdiğ
 
 Sonra: ortaklara çeviri kontrolü e-postası (İngilizce kısa not), çeviriler güncellendikten sonra.
 
+Veri gelince: yönetim panelinin PostgreSQL veritabanında 25.11.2026'da yanlışlıkla açılmış 15 akademi tablosu
+(boş; `uyeler`'de 11 kopya hesap) kullanıcıyla birlikte silinecek. Önce panel veritabanının yedeği alınır;
+yalnızca akademi şemasındaki tablo adları silinir, panelin kendi tablolarına dokunulmaz.
+
 ## Sıradaki işler (25 Kasım 2026'da kararlaştırılan sıra)
 
 Ölçüt: sistem sade kalacak — Moodle karmaşık ve kalabalık olduğu için bırakıldı. Yeni ekran ya da
