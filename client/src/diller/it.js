@@ -1,4 +1,10 @@
 export default {
+  "hata.anket_eksik": "Valuta tutte le voci, per favore.",
+  "hata.anket_var": "Hai già compilato il questionario, grazie.",
+  "hata.bulunamadi": "Non trovato.",
+  "hata.istek_gecersiz": "Richiesta non valida. Aggiorna la pagina e riprova.",
+  "hata.kendin": "Non puoi farlo sul tuo account.",
+  "hata.koken": "Controllo di sicurezza non riuscito. Aggiorna la pagina e riprova.",
   "rap.bas": "Dal",
   "rap.bit": "Al",
   "rap.ulke": "Paese",

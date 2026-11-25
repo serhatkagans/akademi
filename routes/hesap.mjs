@@ -1,5 +1,5 @@
 import { randomBytes, timingSafeEqual } from 'node:crypto';
-import { imza, siteAdresi, uyeyeGonder } from '../lib/posta.mjs';
+import { imza, siteAdresi, uyeyeGonder, postaSablonu, SABLON } from '../lib/posta.mjs';
 import { DILLER } from '../lib/diller.mjs';
 import { send, govde, ozet, oturumCerezi, oturumJetonu, istemciAdresi, cokDeneme, denemeSifirla, Hata } from '../lib/http.mjs';
 import { kayitDenetle, parolaOzeti, parolaDogru } from '../lib/uye.mjs';
@@ -87,12 +87,18 @@ export function hesapRoutes({ db }) {
       const k = String(url.searchParams.get('k') || '');
       const gecerli = Number.isInteger(id) && k.length === 32 && timingSafeEqual(Buffer.from(k), Buffer.from(imza(id)));
       if (gecerli) await db.run('UPDATE uyeler SET bildirim = 0 WHERE id = ?', [id]);
+      /* Sayfa kişinin dilinde; bağlantı geçersizse Türkçe + İngilizce. */
+      const kisi = gecerli ? await db.get('SELECT dil FROM uyeler WHERE id = ?', [id]) : null;
+      const diller = kisi ? [kisi.dil] : ['tr', 'en'];
+      const metinler = [];
+      for (const d of diller) metinler.push((await postaSablonu(d))?.kapat || SABLON.en.kapat);
+      const kac = v => String(v).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>E-YOUTHPRENEUR Academy</title>
+      res.end(`<!doctype html><html lang="${kac(diller[0])}"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>E-YOUTHPRENEUR Academy</title>
 <body style="font:16px system-ui;max-width:520px;margin:15vh auto;padding:0 16px;color:#0f1f33">
-<h1 style="font-size:1.4rem">${gecerli ? 'E-posta bildirimleri kapatıldı · Email notifications turned off' : 'Bağlantı geçersiz · Invalid link'}</h1>
-<p>${gecerli ? 'Artık hatırlatma e-postası almayacaksın. İstersen Hesabım sayfasından yeniden açabilirsin.<br>You will no longer receive reminder emails. You can turn them back on in My account.' : ''}</p>
-<p><a href="${siteAdresi()}#/hesap">E-YOUTHPRENEUR Academy</a></p></body>`);
+<h1 style="font-size:1.4rem">${metinler.map(m => kac(gecerli ? m.baslik : m.gecersiz)).join(' · ')}</h1>
+${gecerli ? metinler.map(m => `<p>${kac(m.metin)}</p>`).join('') : ''}
+<p><a href="${kac(siteAdresi())}#/hesap">E-YOUTHPRENEUR Academy</a></p></body></html>`);
       return true;
     }
 

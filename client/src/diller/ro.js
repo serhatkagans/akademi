@@ -1,4 +1,10 @@
 export default {
+  "hata.anket_eksik": "Te rugăm să evaluezi toți itemii.",
+  "hata.anket_var": "Ai completat deja chestionarul, mulțumim.",
+  "hata.bulunamadi": "Nu a fost găsit.",
+  "hata.istek_gecersiz": "Cerere nevalidă. Reîncarcă pagina și încearcă din nou.",
+  "hata.kendin": "Nu poți face asta pentru propriul cont.",
+  "hata.koken": "Verificarea de securitate a eșuat. Reîncarcă pagina și încearcă din nou.",
   "rap.bas": "De la",
   "rap.bit": "Până la",
   "rap.ulke": "Țară",

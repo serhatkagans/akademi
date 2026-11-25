@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useB } from '../baglam.js';
 import { api } from '../api.js';
-import { yerel } from '../dil.js';
+import { yerel, yuzde as yuzdeBicim } from '../dil.js';
 import { Yukleniyor } from '../bilesenler/Kabuk.jsx';
 import Simge from '../bilesenler/Simge.jsx';
 
@@ -23,7 +23,8 @@ export default function YonetimRapor() {
   useEffect(() => { setO(null); api('yonetim/ozet' + (sorgu ? '?' + sorgu : '')).then(setO); }, [sorgu]);
 
   const simdi = new Intl.DateTimeFormat(yerel(dil), { dateStyle: 'long', timeStyle: 'short' }).format(new Date());
-  const yuzde = (a, b) => (b ? `%${Math.round((a / b) * 1000) / 10}` : '–');
+  const yz = n => yuzdeBicim(dil, n);
+  const yuzde = (a, b) => (b ? yz(Math.round((a / b) * 1000) / 10) : '–');
   const durum = (deger, hedef) => (deger >= hedef
     ? <span className="rap-durum iyi">{t('rap.ulasti')}</span>
     : <span className="rap-durum dusuk">{t('rap.altinda')}</span>);
@@ -62,15 +63,15 @@ export default function YonetimRapor() {
   const satirlar = [
     [t('yon.kayitli'), n],
     [t('rap.tumu'), o.tumunuBitiren],
-    [t('yon.tamamlama'), `%${o.tamamlamaOrani}`, '≥ %' + HEDEF.tamamlama, durum(o.tamamlamaOrani, HEDEF.tamamlama)],
-    [t('rap.testGiren'), `${o.test.giren} (%${o.test.girmeOrani})`, '', '', t('rap.testGirme.n')],
-    [t('rap.testGecen'), `${o.test.gecen} (%${o.test.gecmeOrani})`, '', '', t('rap.testGecme.n')],
-    [t('yon.sertifika'), `${o.sertifika} (%${o.sertifikaOrani})`, '≥ %' + HEDEF.sertifika, durum(o.sertifikaOrani, HEDEF.sertifika)],
-    [t('yon.azfirsat'), `${o.azFirsat.sayi} (%${o.azFirsat.oran})`, '%' + HEDEF.azFirsat, durum(o.azFirsat.oran, HEDEF.azFirsat)],
+    [t('yon.tamamlama'), `${yz(o.tamamlamaOrani)}`, '≥ ' + yz(HEDEF.tamamlama), durum(o.tamamlamaOrani, HEDEF.tamamlama)],
+    [t('rap.testGiren'), `${o.test.giren} (${yz(o.test.girmeOrani)})`, '', '', t('rap.testGirme.n')],
+    [t('rap.testGecen'), `${o.test.gecen} (${yz(o.test.gecmeOrani)})`, '', '', t('rap.testGecme.n')],
+    [t('yon.sertifika'), `${o.sertifika} (${yz(o.sertifikaOrani)})`, '≥ ' + yz(HEDEF.sertifika), durum(o.sertifikaOrani, HEDEF.sertifika)],
+    [t('yon.azfirsat'), `${o.azFirsat.sayi} (${yz(o.azFirsat.oran)})`, yz(HEDEF.azFirsat), durum(o.azFirsat.oran, HEDEF.azFirsat)],
     [t('yon.giris'), o.giris],
     [t('yon.sure'), t('dk', { n: o.ortSureDk })],
-    [t('yon.video'), `%${o.videoOrtIzleme}`],
-    [t('rap.anketSayi'), o.anket.oran === null ? o.anket.sayi : `${o.anket.sayi} (%${o.anket.oran})`, '', '', t('rap.anketOrani.n')],
+    [t('yon.video'), `${yz(o.videoOrtIzleme)}`],
+    [t('rap.anketSayi'), o.anket.oran === null ? o.anket.sayi : `${o.anket.sayi} (${yz(o.anket.oran)})`, '', '', t('rap.anketOrani.n')],
     [t('yon.indirme'), o.indirme],
     [t('yon.grup'), o.grup],
   ];
@@ -121,7 +122,7 @@ export default function YonetimRapor() {
           <table className="rap-tablo">
             <thead><tr><th>{t('rap.ulke')}</th><th>{t('rap.kisi')}</th><th>{t('rap.tumu')}</th><th>{t('rap.oran')}</th><th>{t('yon.sertifika')}</th><th>{t('rap.oran')}</th><th>{t('yon.azfirsat')}</th></tr></thead>
             <tbody>{o.ulkeDokum.map(u => (
-              <tr key={u.ulke}><td>{t('ulke.' + u.ulke)}</td><td>{u.kayitli}</td><td>{u.bitiren}</td><td>%{u.tamamlamaOrani}</td><td>{u.sertifika}</td><td>%{u.sertifikaOrani}</td><td>{u.azFirsat} (%{u.azFirsatOrani})</td></tr>
+              <tr key={u.ulke}><td>{t('ulke.' + u.ulke)}</td><td>{u.kayitli}</td><td>{u.bitiren}</td><td>{yz(u.tamamlamaOrani)}</td><td>{u.sertifika}</td><td>{yz(u.sertifikaOrani)}</td><td>{u.azFirsat} ({yz(u.azFirsatOrani)})</td></tr>
             ))}</tbody>
           </table>
         </div>

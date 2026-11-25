@@ -457,6 +457,7 @@ export default {
       "metin": "Olá, {ad},\n\nJá concluíste {biten}/{toplam} passos da formação em empreendedorismo.{siradaki}\nSe tiveres uns minutos, continua onde ficaste:\n{site}#/pano",
       "siradaki": " Parte seguinte: {siradaki}."
     },
+    "kapat": {"baslik": "Notificações por e-mail desativadas", "metin": "Deixarás de receber e-mails de lembrete. Podes voltar a ativá-los na página A minha conta.", "gecersiz": "Ligação inválida."},
     "sifirlama": {"konu": "Redefinição da palavra-passe — E-YOUTHPRENEUR Academy", "metin": "Olá {ad},\n\nAbre esta ligação para redefinir a tua palavra-passe (válida durante 1 hora, utilização única):\n{baglanti}\n\nSe não foste tu a fazer este pedido, ignora este e-mail; a tua palavra-passe não será alterada."},
     "alt": "\n\n—\nAcademia E-YOUTHPRENEUR · Erasmus+ KA220-YOU · Cofinanciado pela União Europeia.\nPara deixares de receber estes e-mails: {link}"
   }

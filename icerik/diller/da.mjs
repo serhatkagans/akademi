@@ -427,6 +427,7 @@ export default {
       "metin": "Hej {ad},\n\nDu har gennemført {biten}/{toplam} trin af iværksætterkurset.{siradaki}\nHvis du har et par minutter, så fortsæt, hvor du slap:\n{site}#/pano",
       "siradaki": " Næste del: {siradaki}."
     },
+    "kapat": {"baslik": "E-mailnotifikationer er slået fra", "metin": "Du modtager ikke længere påmindelser på e-mail. Du kan slå dem til igen på siden Min konto.", "gecersiz": "Ugyldigt link."},
     "sifirlama": {"konu": "Nulstilling af adgangskode — E-YOUTHPRENEUR Academy", "metin": "Hej {ad},\n\nÅbn dette link for at nulstille din adgangskode (gyldigt i 1 time, kan kun bruges én gang):\n{baglanti}\n\nHvis det ikke var dig, der bad om det, kan du se bort fra denne e-mail; din adgangskode bliver ikke ændret."},
     "alt": "\n\n—\nE-YOUTHPRENEUR Academy · Erasmus+ KA220-YOU · Medfinansieret af Den Europæiske Union.\nFor at stoppe disse e-mails: {link}"
   }

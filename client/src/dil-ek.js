@@ -2,6 +2,12 @@
 export const EK = {
   tr: {
     'pano.bolumNo': 'Bölüm {n}',
+    "hata.anket_eksik": "Lütfen bütün maddeleri puanla.",
+    "hata.anket_var": "Anketi zaten doldurdun, teşekkürler.",
+    "hata.bulunamadi": "Aradığın şey bulunamadı.",
+    "hata.istek_gecersiz": "İstek geçersiz. Sayfayı yenileyip yeniden dene.",
+    "hata.kendin": "Bu işlemi kendi hesabın için yapamazsın.",
+    "hata.koken": "Güvenlik denetimi başarısız. Sayfayı yenileyip yeniden dene.",
     "rap.bas": "Başlangıç",
     "rap.bit": "Bitiş",
     "rap.ulke": "Ülke",
@@ -165,6 +171,12 @@ export const EK = {
   },
   en: {
     'pano.bolumNo': 'Part {n}',
+    "hata.anket_eksik": "Please rate every item.",
+    "hata.anket_var": "You have already filled in the survey, thank you.",
+    "hata.bulunamadi": "Not found.",
+    "hata.istek_gecersiz": "Invalid request. Refresh the page and try again.",
+    "hata.kendin": "You cannot do this to your own account.",
+    "hata.koken": "Security check failed. Refresh the page and try again.",
     "rap.bas": "From",
     "rap.bit": "To",
     "rap.ulke": "Country",

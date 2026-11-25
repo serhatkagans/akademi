@@ -1,4 +1,10 @@
 export default {
+  "hata.anket_eksik": "Giv venligst alle punkter en vurdering.",
+  "hata.anket_var": "Du har allerede udfyldt spørgeskemaet. Tak!",
+  "hata.bulunamadi": "Ikke fundet.",
+  "hata.istek_gecersiz": "Ugyldig anmodning. Genindlæs siden, og prøv igen.",
+  "hata.kendin": "Du kan ikke gøre dette ved din egen konto.",
+  "hata.koken": "Sikkerhedstjekket mislykkedes. Genindlæs siden, og prøv igen.",
   "rap.bas": "Fra",
   "rap.bit": "Til",
   "rap.ulke": "Land",

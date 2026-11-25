@@ -25,6 +25,18 @@ const etiket = s => [...String(s).matchAll(/<\/?([a-z0-9]+)/gi)].map(m => m[0].t
 const en = m => (m && typeof m === 'object' && 'en' in m ? m.en : m);
 
 let toplamHata = 0;
+
+/* Sunucunun döndürdüğü her hata kodunun (new Hata('kod')) arayüzde tr ve en çevirisi olmalı;
+   yoksa ekranda "hata.kod" diye ham anahtar görünür. Ortak dilleri aşağıda METIN.en'e göre denetlenir. */
+{
+  const { readFileSync, readdirSync } = await import('node:fs');
+  const dosyalar = ['server.mjs', ...readdirSync('routes').map(f => 'routes/' + f), ...readdirSync('lib').map(f => 'lib/' + f)];
+  const kodlar = new Set(dosyalar.flatMap(f => [...readFileSync(f, 'utf8').matchAll(/new Hata\('([a-z_]+)'/g)].map(m => m[1])));
+  const eksik = [...kodlar].filter(k => !METIN.tr['hata.' + k] || !METIN.en['hata.' + k]);
+  console.log(`
+== sunucu hata kodları (${kodlar.size}): ${eksik.length ? 'çevirisi eksik: ' + eksik.join(', ') : 'TAMAM'}`);
+  toplamHata += eksik.length;
+}
 for (const kod of process.argv.slice(2)) {
   const h = [];
   const bak = (yol, kaynak, hedef, { html = false } = {}) => {
@@ -96,6 +108,7 @@ for (const kod of process.argv.slice(2)) {
     }
     bak('posta.hatirlatma.siradaki', SABLON.en.hatirlatma.siradaki, ic.posta?.hatirlatma?.siradaki);
     bak('posta.alt', SABLON.en.alt, ic.posta?.alt);
+    for (const a of ['baslik', 'metin', 'gecersiz']) bak('posta.kapat.' + a, SABLON.en.kapat[a], ic.posta?.kapat?.[a]);
   }
 
   console.log(`\n== ${kod}: ${h.length ? h.length + ' sorun' : 'TAMAM'}`);

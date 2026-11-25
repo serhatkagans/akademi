@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useB } from '../baglam.js';
 import { api } from '../api.js';
-import { yerel } from '../dil.js';
+import { yerel, yuzde } from '../dil.js';
 import { Yukleniyor } from '../bilesenler/Kabuk.jsx';
 import YonetimIcerik from './YonetimIcerik.jsx';
 import YonetimKaynak from './YonetimKaynak.jsx';
@@ -48,6 +48,7 @@ export default function Yonetim({ sekme = 'gosterge' }) {
 
 function Gostergeler() {
   const { t, dil, uye, icerik } = useB();
+  const yz = n => yuzde(dil, n);
   const [o, setO] = useState(null);
   useEffect(() => { if (uye.yonetici) api('yonetim/ozet').then(setO); }, [uye]);
   if (!o) return <Yukleniyor />;
@@ -69,14 +70,14 @@ function Gostergeler() {
       )}
       <div className="gostergeler">
         <Kart baslik={t('yon.kayitli')} deger={o.kayitli} />
-        <Kart baslik={t('yon.tamamlama')} deger={`%${o.tamamlamaOrani}`} alt={`${o.tumunuBitiren} · ${t('yon.hedef', { h: '≥%70' })}`} hedef={70} oran={o.tamamlamaOrani} />
-        <Kart baslik={t('yon.sertifika')} deger={o.sertifika} alt={`%${o.sertifikaOrani} · ${t('yon.hedef', { h: '≥%65' })}`} hedef={65} oran={o.sertifikaOrani} />
-        <Kart baslik={t('yon.azfirsat')} deger={`%${o.azFirsat.oran}`} alt={`${o.azFirsat.sayi} · ${t('yon.hedef', { h: '%40' })}`} hedef={40} oran={o.azFirsat.oran} />
+        <Kart baslik={t('yon.tamamlama')} deger={yz(o.tamamlamaOrani)} alt={`${o.tumunuBitiren} · ${t('yon.hedef', { h: '≥ ' + yz(70) })}`} hedef={70} oran={o.tamamlamaOrani} />
+        <Kart baslik={t('yon.sertifika')} deger={o.sertifika} alt={`${yz(o.sertifikaOrani)} · ${t('yon.hedef', { h: '≥ ' + yz(65) })}`} hedef={65} oran={o.sertifikaOrani} />
+        <Kart baslik={t('yon.azfirsat')} deger={yz(o.azFirsat.oran)} alt={`${o.azFirsat.sayi} · ${t('yon.hedef', { h: yz(40) })}`} hedef={40} oran={o.azFirsat.oran} />
         <Kart baslik={t('yon.test')} deger={`${o.test.giren} / ${o.test.gecen}`} alt={t('yon.test.oran', { g: o.test.girmeOrani, p: o.test.gecmeOrani })} />
         <Kart baslik={t('rap.anketSayi')} deger={o.anket.sayi} alt={t('yon.anket.oran', { o: o.anket.oran ?? 0 })} />
         <Kart baslik={t('yon.giris')} deger={o.giris} />
         <Kart baslik={t('yon.sure')} deger={t('dk', { n: o.ortSureDk })} />
-        <Kart baslik={t('yon.video')} deger={`%${o.videoOrtIzleme}`} />
+        <Kart baslik={t('yon.video')} deger={yz(o.videoOrtIzleme)} />
         <Kart baslik={t('yon.indirme')} deger={o.indirme} />
         <Kart baslik={t('yon.grup')} deger={o.grup} />
       </div>

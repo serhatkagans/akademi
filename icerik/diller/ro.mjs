@@ -457,6 +457,7 @@ export default {
       "metin": "Salut, {ad}!\n\nAi finalizat {biten}/{toplam} pași din cursul de antreprenoriat.{siradaki}\nDacă ai câteva minute, continuă de unde ai rămas:\n{site}#/pano",
       "siradaki": " Partea următoare: {siradaki}."
     },
+    "kapat": {"baslik": "Notificările prin e-mail au fost dezactivate", "metin": "Nu vei mai primi e-mailuri de reamintire. Le poți reactiva din pagina Contul meu.", "gecersiz": "Link nevalid."},
     "sifirlama": {"konu": "Resetarea parolei — E-YOUTHPRENEUR Academy", "metin": "Bună, {ad},\n\nDeschide acest link pentru a-ți reseta parola (valabil 1 oră, o singură utilizare):\n{baglanti}\n\nDacă nu ai cerut tu acest lucru, ignoră acest e-mail; parola ta nu se va schimba."},
     "alt": "\n\n—\nE-YOUTHPRENEUR Academy · Erasmus+ KA220-YOU · Cofinanțat de Uniunea Europeană.\nPentru a nu mai primi aceste e-mailuri: {link}"
   }

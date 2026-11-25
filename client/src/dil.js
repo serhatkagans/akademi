@@ -202,6 +202,9 @@ export const DILLER = [
 /* Tarih biçimi için yerel ayar. */
 const YEREL = { tr: 'tr-TR', en: 'en-GB', it: 'it-IT', ro: 'ro-RO', pt: 'pt-PT', da: 'da-DK' };
 export const yerel = dil => YEREL[dil] || 'en-GB';
+/* Yüzde: dile göre (tr "%50", it/en "50%", da "50 %"). n 0–100 arası sayı. */
+export const yuzde = (dil, n) => (n === null || n === undefined || Number.isNaN(Number(n)) ? '–'
+  : new Intl.NumberFormat(yerel(dil), { style: 'percent', maximumFractionDigits: 1 }).format(Number(n) / 100));
 
 /* İkinci tur metinleri (dil-ek.js) aynı sözlüğe katılır; aynı anahtar varsa EK geçerli. */
 Object.assign(METIN.tr, EK.tr);

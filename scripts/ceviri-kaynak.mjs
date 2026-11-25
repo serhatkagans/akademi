@@ -43,7 +43,7 @@ const icerik = {
   test: TEST.map(q => ({ soru: en(q.soru), secenekler: q.secenekler.map(en) })),
   anket: Object.fromEntries(ANKET.map(m => [m.id, m.en])),
   kanvas: Object.fromEntries(KANVAS.map(k => [k.id, { ad: k.en, ip: k.ip.en }])),
-  posta: { sertifika: SABLON.en.sertifika, hatirlatma: SABLON.en.hatirlatma, sifirlama: SABLON.en.sifirlama, alt: SABLON.en.alt },
+  posta: { sertifika: SABLON.en.sertifika, hatirlatma: SABLON.en.hatirlatma, sifirlama: SABLON.en.sifirlama, kapat: SABLON.en.kapat, alt: SABLON.en.alt },
 };
 writeFileSync(join(kl, 'icerik.en.json'), JSON.stringify(icerik, null, 1));
 console.log('Yazıldı:', kl);
